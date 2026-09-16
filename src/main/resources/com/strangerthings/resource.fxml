@@ -18,10 +18,12 @@
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
+
     <Label text="Resource Catalogue"/>
+
+    <!-- Search and buttons -->
     <HBox>
         <TextField
-                fx:id="resourceField"
                 promptText="Search for resource..."/>
         <Button text="Filters"
                 onAction="#onAddFilters"/>
@@ -30,14 +32,18 @@
         <Button text="+ Add Resource"
                 onAction="#onAddResource"/>
     </HBox>
-    <TilePane fx:id="resourceTilePane"
-              hgap="15"
-              vgap="15"
-              prefColumns="3">
+
+    <!-- Resource cards -->
+    <TilePane
+            hgap="15"
+            vgap="15"
+            prefColumns="3">
+
         <VBox>
             <Label text="[Resource Image]"
                    prefWidth="200"
-                   prefHeight="100"
+                   prefHeight="200"
+                   alignment="CENTER"
                    style="-fx-background-color: #2b2b2b;
                    -fx-text-fill: white;"/>
 
@@ -45,10 +51,12 @@
             <Label text="Category:"/>
             <Label text="Owner:"/>
         </VBox>
+
         <VBox>
             <Label text="[Resource Image]"
                    prefWidth="200"
-                   prefHeight="100"
+                   prefHeight="200"
+                   alignment="CENTER"
                    style="-fx-background-color: #2b2b2b;
                    -fx-text-fill: white;"/>
 
