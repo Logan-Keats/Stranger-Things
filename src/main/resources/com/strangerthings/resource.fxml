@@ -19,7 +19,9 @@
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
 
-    <Label text="Resource Catalogue"/>
+    <Label text="Resource Catalogue"
+           style="-fx-font-size: 20px;
+                  -fx-font-weight: bold;"/>/>
 
     <!-- Search and buttons -->
     <HBox>
