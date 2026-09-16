@@ -22,7 +22,7 @@
 
     <Label text="Register Resource"
            style="-fx-font-size: 20px;
-                  -fx-font-weight: bold;"/>/>
+                  -fx-font-weight: bold;"/>
 
     <HBox spacing="40">
 
@@ -31,12 +31,14 @@
 
             <VBox spacing="5">
                 <Label text="Resource Name"/>
-                <TextField promptText="Enter resource name..."/>
+                <TextField fx:id="resourceNameField"
+                           promptText="Enter resource name..."/>
             </VBox>
 
             <VBox spacing="5">
                 <Label text="Description"/>
-                <TextArea promptText="Enter resource description..."
+                <TextArea fx:id="descriptionField"
+                          promptText="Enter resource description..."
                           prefRowCount="4"
                           wrapText="true"/>
             </VBox>
@@ -77,13 +79,21 @@
 
     </HBox>
 
+    <!-- Validation message -->
+    <Label fx:id="errorLabel"
+           text=""
+           wrapText="true"
+           style="-fx-text-fill: red;"/>
+
     <!-- Buttons -->
     <HBox spacing="10">
+
         <Button text="Cancel"
                 onAction="#onCancel"/>
 
         <Button text="Register Resource"
                 onAction="#onRegisterResource"/>
+
     </HBox>
 
 </VBox>
