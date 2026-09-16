@@ -13,6 +13,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import com.strangerthings.controller.BookingDetailController;
+import com.strangerthings.model.Booking;
+import com.strangerthings.model.BookingStatus;
+
 public class MainShellController {
 
     @FXML
@@ -24,10 +28,41 @@ public class MainShellController {
     @FXML
     private StackPane contentArea;
 
+
     /** Called after login succeeds (C-5). */
     public void setLoggedInUser(String username) {
         if (userNameLabel != null) {
             userNameLabel.setText(username);
+        }
+    }
+
+    @FXML
+    private void onBookingDetail() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    MainShellController.class.getResource(
+                            "/com/strangerthings/booking-detail.fxml"));
+
+            Parent bookingDetail = loader.load();
+
+            BookingDetailController controller = loader.getController();
+
+            // Temporary sample booking for CP3 prototype.
+            // Replace with selected booking when the shared booking flow is integrated.
+
+            Booking booking = new Booking(
+                    1,
+                    "Power Drill",
+                    "member",
+                    BookingStatus.APPROVED
+            );
+
+            controller.setBooking(booking);
+
+            contentArea.getChildren().setAll(bookingDetail);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 

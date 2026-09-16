@@ -34,7 +34,7 @@
 
     </GridPane>
 
-    <Button text="Mark On Loan"/>
-    <Button text="Mark Returned"/>
+    <Button text="Mark On Loan" onAction="#onMarkOnLoan"/>
+    <Button text="Mark Returned" onAction="#onMarkReturned"/>
 
 </VBox>
