@@ -14,59 +14,77 @@
       fx:controller="com.strangerthings.AddResourceController"
       prefHeight="600.0"
       prefWidth="700.0"
-      spacing="20">
+      spacing="5">
 
     <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
+        <Insets top="20"
+                right="20"
+                bottom="20"
+                left="20"/>
     </padding>
 
+    <!-- Page title -->
     <Label text="Register Resource"
            style="-fx-font-size: 20px;
                   -fx-font-weight: bold;"/>
 
+    <!-- Form and image -->
     <HBox spacing="40">
 
         <!-- Resource details -->
-        <VBox spacing="15" prefWidth="400">
+        <VBox spacing="10"
+              prefWidth="350">
 
+            <!-- Resource Name -->
             <VBox spacing="5">
                 <Label text="Resource Name"/>
+
                 <TextField fx:id="resourceNameField"
-                           promptText="Enter resource name..."/>
+                           promptText="Enter resource name..."
+                           prefWidth="250"/>
             </VBox>
 
+            <!-- Description -->
             <VBox spacing="5">
                 <Label text="Description"/>
+
                 <TextArea fx:id="descriptionField"
                           promptText="Enter resource description..."
-                          prefRowCount="4"
+                          prefWidth="250"
+                          prefRowCount="3"
                           wrapText="true"/>
             </VBox>
 
+            <!-- Category -->
             <VBox spacing="5">
                 <Label text="Category"/>
+
                 <ComboBox fx:id="categoryBox"
                           promptText="Select category"
-                          prefWidth="400"/>
+                          prefWidth="250"/>
             </VBox>
 
+            <!-- Collection Method -->
             <VBox spacing="5">
                 <Label text="Collection Method"/>
+
                 <ComboBox fx:id="collectionMethodBox"
                           promptText="Select collection method"
-                          prefWidth="400"/>
+                          prefWidth="250"/>
             </VBox>
 
         </VBox>
 
         <!-- Resource Image -->
-        <VBox spacing="10" prefWidth="200">
+        <VBox spacing="10"
+              prefWidth="150"
+              minWidth="150">
 
             <Label text="Resource Image"/>
 
             <Label text="[Image Preview]"
-                   prefWidth="200"
-                   prefHeight="200"
+                   prefWidth="150"
+                   prefHeight="150"
                    alignment="CENTER"
                    style="-fx-background-color: #2b2b2b;
                           -fx-text-fill: white;"/>
@@ -85,8 +103,8 @@
            wrapText="true"
            style="-fx-text-fill: red;"/>
 
-    <!-- Buttons -->
-    <HBox spacing="10">
+    <!-- Bottom buttons -->
+    <HBox spacing="50">
 
         <Button text="Cancel"
                 onAction="#onCancel"/>

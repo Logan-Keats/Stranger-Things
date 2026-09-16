@@ -4,6 +4,12 @@ import javafx.fxml.FXML;
 
 public class ResourceController {
 
+    private Runnable addResourceNavigation;
+
+    public void setAddResourceNavigation(Runnable addResourceNavigation) {
+        this.addResourceNavigation = addResourceNavigation;
+    }
+
     @FXML
     private void onAddFilters() {
         System.out.println("Filters clicked");
@@ -16,6 +22,8 @@ public class ResourceController {
 
     @FXML
     private void onAddResource() {
-        System.out.println("Add Resource clicked");
+        if (addResourceNavigation != null) {
+            addResourceNavigation.run();
+        }
     }
 }

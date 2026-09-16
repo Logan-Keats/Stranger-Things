@@ -8,6 +8,8 @@ import javafx.scene.control.TextField;
 
 public class AddResourceController {
 
+    private Runnable cancelNavigation;
+
     @FXML
     private TextField resourceNameField;
 
@@ -50,7 +52,9 @@ public class AddResourceController {
 
     @FXML
     private void onCancel() {
-        System.out.println("Cancel clicked");
+        if (cancelNavigation != null) {
+            cancelNavigation.run();
+        }
     }
 
     @FXML
@@ -70,4 +74,9 @@ public class AddResourceController {
             errorLabel.setText("Please complete all resource details.");
         }
     }
+
+    public void setCancelNavigation(Runnable cancelNavigation) {
+        this.cancelNavigation = cancelNavigation;
+    }
+
 }

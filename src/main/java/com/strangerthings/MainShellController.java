@@ -42,6 +42,49 @@ public class MainShellController {
 
             Parent resourcePage = loader.load();
 
+            ResourceController controller = loader.getController();
+            controller.setAddResourceNavigation(this::showAddResource);
+
+            contentArea.getChildren().setAll(resourcePage);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void showAddResource() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    MainShellController.class.getResource(
+                            "/com/strangerthings/add-resource.fxml"
+                    )
+            );
+
+            Parent addResourcePage = loader.load();
+
+            AddResourceController controller = loader.getController();
+            controller.setCancelNavigation(this::showResources);
+
+            contentArea.getChildren().setAll(addResourcePage);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void showResources() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    MainShellController.class.getResource(
+                            "/com/strangerthings/resource.fxml"
+                    )
+            );
+
+            Parent resourcePage = loader.load();
+
+            ResourceController controller = loader.getController();
+            controller.setAddResourceNavigation(this::showAddResource);
+
             contentArea.getChildren().setAll(resourcePage);
 
         } catch (IOException ex) {
