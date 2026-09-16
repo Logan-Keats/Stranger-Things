@@ -32,6 +32,24 @@ public class MainShellController {
     }
 
     @FXML
+    private void onResources() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    MainShellController.class.getResource(
+                            "/com/strangerthings/resource.fxml"
+                    )
+            );
+
+            Parent resourcePage = loader.load();
+
+            contentArea.getChildren().setAll(resourcePage);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @FXML
     private void onLogout(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(

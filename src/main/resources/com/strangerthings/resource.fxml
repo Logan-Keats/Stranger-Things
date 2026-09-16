@@ -21,7 +21,7 @@
 
     <Label text="Resource Catalogue"
            style="-fx-font-size: 20px;
-                  -fx-font-weight: bold;"/>/>
+                  -fx-font-weight: bold;"/>
 
     <!-- Search and buttons -->
     <HBox>
