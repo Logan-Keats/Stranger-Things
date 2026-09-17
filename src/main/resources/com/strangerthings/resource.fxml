@@ -13,7 +13,7 @@
       fx:controller="com.strangerthings.ResourceController"
       prefHeight="400.0"
       prefWidth="600.0"
-      spacing="15">
+      spacing="10">
 
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>
@@ -51,22 +51,23 @@
                    style="-fx-background-color: #2b2b2b;
                    -fx-text-fill: white;"/>
 
-            <Label text="Resource Name:"/>
-            <Label text="Category:"/>
-            <Label text="Owner:"/>
-        </VBox>
+            <HBox spacing="5">
+                <Label text="Resource Name:"
+                       style="-fx-font-weight: bold;"/>
+                <Label text="Mechanical Toolbox"/>
+            </HBox>
 
-        <VBox>
-            <Label text="[Resource Image]"
-                   prefWidth="200"
-                   prefHeight="200"
-                   alignment="CENTER"
-                   style="-fx-background-color: #2b2b2b;
-                   -fx-text-fill: white;"/>
+            <HBox spacing="5">
+                <Label text="Category:"
+                       style="-fx-font-weight: bold;"/>
+                <Label text="Tools"/>
+            </HBox>
 
-            <Label text="Resource Name:"/>
-            <Label text="Category:"/>
-            <Label text="Owner:"/>
+            <HBox spacing="5">
+                <Label text="Owner:"
+                       style="-fx-font-weight: bold;"/>
+                <Label text="David"/>
+            </HBox>
         </VBox>
     </TilePane>
 </VBox>
