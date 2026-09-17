@@ -85,6 +85,7 @@ public class MainShellController {
 
             ResourceDetailController controller = loader.getController();
             controller.setBackNavigation(this::showResources);
+            controller.setEditResourceNavigation(this::showEditResource);
 
             contentArea.getChildren().setAll(resourceDetailPage);
 
@@ -109,6 +110,26 @@ public class MainShellController {
             controller.setResourceDetailsNavigation(this::showResourceDetails);
 
             contentArea.getChildren().setAll(resourcePage);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void showEditResource() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    MainShellController.class.getResource(
+                            "/com/strangerthings/edit-resource.fxml"
+                    )
+            );
+
+            Parent editResourcePage = loader.load();
+
+            EditResourceController controller = loader.getController();
+            controller.setCancelNavigation(this::showResourceDetails);
+
+            contentArea.getChildren().setAll(editResourcePage);
 
         } catch (IOException ex) {
             ex.printStackTrace();

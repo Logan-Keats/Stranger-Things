@@ -5,9 +5,14 @@ import javafx.fxml.FXML;
 public class ResourceDetailController {
 
     private Runnable backNavigation;
+    private Runnable editResourceNavigation;
 
     public void setBackNavigation(Runnable backNavigation) {
         this.backNavigation = backNavigation;
+    }
+
+    public void setEditResourceNavigation(Runnable editResourceNavigation) {
+        this.editResourceNavigation = editResourceNavigation;
     }
 
     @FXML
@@ -19,7 +24,9 @@ public class ResourceDetailController {
 
     @FXML
     private void onEditResource() {
-        System.out.println("Edit Resource clicked");
+        if (editResourceNavigation != null) {
+            editResourceNavigation.run();
+        }
     }
 
     @FXML
