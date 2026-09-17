@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.strangerthings.ResourceDetailController"
+      prefHeight="600.0"
+      prefWidth="700.0"
+      spacing="5">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Resource Details"
+           style="-fx-font-size: 20px;
+                  -fx-font-weight: bold;"/>
+
+    <HBox spacing="40">
+
+        <!-- Resource details -->
+        <VBox spacing="15"
+              prefWidth="400">
+
+            <VBox spacing="5">
+                <Label text="Resource Name"
+                       style="-fx-font-weight: bold;"/>
+                <Label text="Mechanical Toolbox"/>
+            </VBox>
+
+            <VBox spacing="5">
+                <Label text="Category"
+                       style="-fx-font-weight: bold;"/>
+                <Label text="Tools"/>
+            </VBox>
+
+            <VBox spacing="5">
+                <Label text="Owner"
+                       style="-fx-font-weight: bold;"/>
+                <Label text="David"/>
+            </VBox>
+
+            <VBox spacing="5">
+                <Label text="Description"
+                       style="-fx-font-weight: bold;"/>
+                <Label text="This is a toolkit used for car repairs"
+                       wrapText="true"/>
+            </VBox>
+
+            <VBox spacing="5">
+                <Label text="Collection Method"
+                       style="-fx-font-weight: bold;"/>
+                <Label text="Pick Up"/>
+            </VBox>
+
+        </VBox>
+
+        <!-- Resource image -->
+        <VBox spacing="10"
+              prefWidth="150"
+              minWidth="150">
+
+            <Label text="Resource Image"
+                   style="-fx-font-weight: bold;"/>
+
+            <Label text="[Resource Image]"
+                   prefWidth="150"
+                   prefHeight="150"
+                   alignment="CENTER"
+                   style="-fx-background-color: #2b2b2b;
+                          -fx-text-fill: white;"/>
+
+        </VBox>
+
+    </HBox>
+
+    <!-- Resource actions -->
+    <HBox spacing="10">
+
+        <Button text="Back"
+                onAction="#onBack"/>
+
+        <Button text="Edit Resource"
+                onAction="#onEditResource"/>
+
+        <Button text="Remove Resource"
+                onAction="#onRemoveResource"/>
+
+    </HBox>
+
+</VBox>

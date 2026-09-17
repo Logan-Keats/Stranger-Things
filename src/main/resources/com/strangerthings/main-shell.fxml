@@ -36,7 +36,7 @@
             </padding>
             <children>
                 <Button text="Home" maxWidth="Infinity"/>
-                <Button text="Resources" maxWidth="Infinity"/>
+                <Button text="Resources" maxWidth="Infinity" onAction="#onResources"/>
                 <Button text="My Bookings" maxWidth="Infinity"/>
             </children>
         </VBox>

@@ -32,6 +32,111 @@ public class MainShellController {
     }
 
     @FXML
+    private void onResources() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    MainShellController.class.getResource(
+                            "/com/strangerthings/resource.fxml"
+                    )
+            );
+
+            Parent resourcePage = loader.load();
+
+            ResourceController controller = loader.getController();
+
+            controller.setAddResourceNavigation(this::showAddResource);
+            controller.setResourceDetailsNavigation(this::showResourceDetails);
+            contentArea.getChildren().setAll(resourcePage);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void showAddResource() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    MainShellController.class.getResource(
+                            "/com/strangerthings/add-resource.fxml"
+                    )
+            );
+
+            Parent addResourcePage = loader.load();
+
+            AddResourceController controller = loader.getController();
+            controller.setCancelNavigation(this::showResources);
+
+            contentArea.getChildren().setAll(addResourcePage);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void showResourceDetails() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    MainShellController.class.getResource(
+                            "/com/strangerthings/resource-detail.fxml"
+                    )
+            );
+
+            Parent resourceDetailPage = loader.load();
+
+            ResourceDetailController controller = loader.getController();
+            controller.setBackNavigation(this::showResources);
+            controller.setEditResourceNavigation(this::showEditResource);
+
+            contentArea.getChildren().setAll(resourceDetailPage);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void showResources() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    MainShellController.class.getResource(
+                            "/com/strangerthings/resource.fxml"
+                    )
+            );
+
+            Parent resourcePage = loader.load();
+
+            ResourceController controller = loader.getController();
+
+            controller.setAddResourceNavigation(this::showAddResource);
+            controller.setResourceDetailsNavigation(this::showResourceDetails);
+
+            contentArea.getChildren().setAll(resourcePage);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void showEditResource() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    MainShellController.class.getResource(
+                            "/com/strangerthings/edit-resource.fxml"
+                    )
+            );
+
+            Parent editResourcePage = loader.load();
+
+            EditResourceController controller = loader.getController();
+            controller.setCancelNavigation(this::showResourceDetails);
+
+            contentArea.getChildren().setAll(editResourcePage);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @FXML
     private void onLogout(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(
