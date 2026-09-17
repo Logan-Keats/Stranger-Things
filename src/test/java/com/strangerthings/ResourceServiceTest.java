@@ -1,17 +1,23 @@
 package com.strangerthings;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ResourceServiceTest {
 
+    private ResourceService resourceService;
+
+    @BeforeEach
+    void setUp() {
+        resourceService = new ResourceService();
+    }
+
     @Test
     void validResourceDetailsShouldBeAccepted() {
-
-        ResourceService service = new ResourceService();
-
-        boolean result = service.isValidResource(
+        boolean result = resourceService.isValidResource(
                 "Drill",
                 "Cordless power drill",
                 "Tools",
@@ -23,10 +29,7 @@ public class ResourceServiceTest {
 
     @Test
     void missingResourceNameShouldBeRejected() {
-
-        ResourceService service = new ResourceService();
-
-        boolean result = service.isValidResource(
+        boolean result = resourceService.isValidResource(
                 "",
                 "Cordless power drill",
                 "Tools",
@@ -38,9 +41,7 @@ public class ResourceServiceTest {
 
     @Test
     void missingDescriptionShouldBeRejected() {
-        ResourceService service = new ResourceService();
-
-        boolean result = service.isValidResource(
+        boolean result = resourceService.isValidResource(
                 "Drill",
                 "",
                 "Tools",
@@ -49,11 +50,10 @@ public class ResourceServiceTest {
 
         assertFalse(result);
     }
+
     @Test
     void missingCategoryShouldBeRejected() {
-        ResourceService service = new ResourceService();
-
-        boolean result = service.isValidResource(
+        boolean result = resourceService.isValidResource(
                 "Drill",
                 "Cordless power drill",
                 null,
@@ -65,9 +65,7 @@ public class ResourceServiceTest {
 
     @Test
     void missingCollectionMethodShouldBeRejected() {
-        ResourceService service = new ResourceService();
-
-        boolean result = service.isValidResource(
+        boolean result = resourceService.isValidResource(
                 "Drill",
                 "Cordless power drill",
                 "Tools",
