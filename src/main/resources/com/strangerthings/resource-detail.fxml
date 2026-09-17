@@ -11,7 +11,7 @@
       fx:controller="com.strangerthings.ResourceDetailController"
       prefHeight="600.0"
       prefWidth="700.0"
-      spacing="20">
+      spacing="5">
 
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>
@@ -62,14 +62,15 @@
 
         <!-- Resource image -->
         <VBox spacing="10"
-              prefWidth="200">
+              prefWidth="150"
+              minWidth="150">
 
             <Label text="Resource Image"
                    style="-fx-font-weight: bold;"/>
 
             <Label text="[Resource Image]"
-                   prefWidth="200"
-                   prefHeight="200"
+                   prefWidth="150"
+                   prefHeight="150"
                    alignment="CENTER"
                    style="-fx-background-color: #2b2b2b;
                           -fx-text-fill: white;"/>
@@ -80,6 +81,9 @@
 
     <!-- Resource actions -->
     <HBox spacing="10">
+
+        <Button text="Back"
+                onAction="#onBack"/>
 
         <Button text="Edit Resource"
                 onAction="#onEditResource"/>

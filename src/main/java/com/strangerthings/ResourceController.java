@@ -5,9 +5,14 @@ import javafx.fxml.FXML;
 public class ResourceController {
 
     private Runnable addResourceNavigation;
+    private Runnable resourceDetailsNavigation;
 
     public void setAddResourceNavigation(Runnable addResourceNavigation) {
         this.addResourceNavigation = addResourceNavigation;
+    }
+
+    public void setResourceDetailsNavigation(Runnable resourceDetailsNavigation) {
+        this.resourceDetailsNavigation = resourceDetailsNavigation;
     }
 
     @FXML
@@ -24,6 +29,13 @@ public class ResourceController {
     private void onAddResource() {
         if (addResourceNavigation != null) {
             addResourceNavigation.run();
+        }
+    }
+
+    @FXML
+    private void onResourceDetails() {
+        if (resourceDetailsNavigation != null) {
+            resourceDetailsNavigation.run();
         }
     }
 }

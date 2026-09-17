@@ -41,7 +41,9 @@
             vgap="15"
             prefColumns="3">
 
-        <VBox>
+        <VBox onMouseClicked="#onResourceDetails"
+              style="-fx-cursor: hand;">
+
             <Label text="[Resource Image]"
                    prefWidth="200"
                    prefHeight="200"
