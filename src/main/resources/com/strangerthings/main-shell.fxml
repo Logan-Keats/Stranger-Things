@@ -38,6 +38,7 @@
                 <Button text="Home" maxWidth="Infinity"/>
                 <Button text="Resources" maxWidth="Infinity"/>
                 <Button text="My Bookings" maxWidth="Infinity"/>
+                <Button fx:id="allBookingsButton" text="All Bookings" maxWidth="Infinity" onAction="#showApprovePage"/>
             </children>
         </VBox>
     </left>

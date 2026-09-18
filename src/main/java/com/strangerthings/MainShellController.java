@@ -25,9 +25,32 @@ public class MainShellController {
     private StackPane contentArea;
 
     /** Called after login succeeds (C-5). */
-    public void setLoggedInUser(String username) {
+    public void setLoggedInUser(String username, Role role) {
         if (userNameLabel != null) {
             userNameLabel.setText(username);
+        }
+
+        if (role != Role.ADMIN) {
+            allBookingsButton.setVisible(false);
+            allBookingsButton.setManaged(false);
+        }
+    }
+
+    @FXML
+    private Button allBookingsButton;
+
+    @FXML
+    private void showApprovePage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    MainShellController.class.getResource("/com/strangerthings/approve.fxml"));
+
+            Parent page = loader.load();
+
+            contentArea.getChildren().setAll(page);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 
