@@ -4,3 +4,6 @@ out/
 build/
 target/
 *.db
+*.class
+*.log
+tmp/
