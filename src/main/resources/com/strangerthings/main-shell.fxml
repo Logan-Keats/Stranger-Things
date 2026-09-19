@@ -38,9 +38,6 @@
                 <Button text="Home" maxWidth="Infinity"/>
                 <Button text="Resources" maxWidth="Infinity"/>
                 <Button text="My Bookings" maxWidth="Infinity"/>
-                <Button text="Booking Detail"
-                        maxWidth="Infinity"
-                        onAction="#onBookingDetail"/>
             </children>
         </VBox>
     </left>
