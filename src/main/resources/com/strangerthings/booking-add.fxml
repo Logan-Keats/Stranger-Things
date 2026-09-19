@@ -2,13 +2,42 @@
 
 <?import java.lang.*?>
 <?import java.util.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="CONTROLLER_NAME"
-            prefHeight="400.0" prefWidth="600.0">
+<VBox xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.strangerthings.controller.BookingAddController"
+      spacing="15.0" prefWidth="400.0">
 
-</AnchorPane>
+    <padding>
+        <Insets top="20.0" right="20.0" bottom="20.0" left="20"/>
+    </padding>
+
+    <children>
+        <Label text="Create Booking Request" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+        <VBox spacing="5.0">
+            <Label text="Resource Name"/>
+            <TextField fx:id="resourceNameField" promptText="Enter item name"/>
+        </VBox>
+
+        <VBox spacing="5.0">
+            <Label text="Start Date"/>
+            <DatePicker fx:id="startDatePicker" prefWidth="400.0"/>
+        </VBox>
+
+        <VBox spacing="5.0">
+            <Label text="End Date"/>
+            <DatePicker fx:id="endDatePicker" prefWidth="400.0"/>
+        </VBox>
+
+        <Label fx:id="errorLabel" style="-fx-text-fill: red;" wrapText="true"/>
+
+        <HBox spacing="10.0" alignment="CENTER_RIGHT">
+            <Button text="Cancel" onAction="#onCancel"/>
+            <Button text="Submit Request" onAction="#onSubmit" style="-fx-background-color: #2b5797; -fx-text-fill: white;"/>
+        </HBox>
+    </children>
+</VBox>

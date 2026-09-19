@@ -1,6 +1,12 @@
-package com.strangerthings;
+package com.strangerthings.model;
 
-public class BookingStatus
+// Handles all valid stages in enum ensuring safety
+public enum BookingStatus
 {
-    // Handles all possible states as ENUM
+    REQUESTED,
+    APPROVED,
+    REJECTED,
+    ON_LOAN,
+    RETURNED,
+    CANCELLED
 }
