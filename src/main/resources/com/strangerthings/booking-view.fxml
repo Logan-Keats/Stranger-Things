@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.strangerthings.controller.BookingViewController"
+      spacing="15.0"
+      prefHeight="500.0" prefWidth="700.0">
+
+    <padding>
+        <Insets top="20.0" right="20.0" bottom="20.0" left="20"/>
+    </padding>
+
+    <children>
+        <HBox alignment="CENTER_LEFT" spacing="20.0">
+            <Label text="My Bookings" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+            <Button text="+ New Request" onAction="#onOpenAddDialog" style="-fx-background-color: #2b5797; -fx-text-fill: white;"/>
+            <Button text="Refresh" onAction="#onRefresh"/>
+        </HBox>
+        <TableView fx:id="bookingTable" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="idColumn" text="ID" prefWidth="50.0"/>
+                <TableColumn fx:id="resourceColumn" text="Resource Name" prefWidth="200.0"/>
+                <TableColumn fx:id="startDateColumn" text="Start Date" prefWidth="120.0"/>
+                <TableColumn fx:id="endDateColumn" text="End Date" prefWidth="120.0"/>
+                <TableColumn fx:id="statusColumn" text="Status" prefWidth="120.0"/>
+            </columns>
+        </TableView>
+        <HBox spacing="10.0" alignment="CENTER_RIGHT">
+                <Button text="Cancel Selected Request" onAction="#onCancelSelected" style="-fx-background-color: #d9534f; -fx-text-fill: white;"/>
+        </HBox>
+    </children>
+</VBox>
