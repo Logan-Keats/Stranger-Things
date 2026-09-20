@@ -15,7 +15,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(
-                Main.class.getResource("/com/strangerthings/login.fxml"));
+                Main.class.getResource("/com/strangerthings/main-shell.fxml"));
         Parent root = loader.load();
         stage.setTitle("Stranger Things");
         stage.setScene(new Scene(root, 600, 400));
