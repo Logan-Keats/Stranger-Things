@@ -54,7 +54,7 @@ public class LoginController {
                 Parent root = loader.load();
 
                 MainShellController shellController = loader.getController();
-                shellController.setLoggedInUser(user.getUsername());
+                shellController.setLoggedInUser(user.getUsername(), user.getRole());
 
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 stage.setScene(new Scene(root, 600, 400));
