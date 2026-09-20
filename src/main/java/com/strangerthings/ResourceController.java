@@ -1,11 +1,25 @@
 package com.strangerthings;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 
 public class ResourceController {
 
     private Runnable addResourceNavigation;
     private ResourceNavigation resourceDetailsNavigation;
+
+    @FXML
+    private TextField searchField;
+
+    @FXML
+    private VBox cordlessDrillCard;
+
+    @FXML
+    private VBox lawnMowerCard;
+
+    @FXML
+    private VBox printerCard;
 
     public interface ResourceNavigation {
         void openResource(
@@ -32,7 +46,31 @@ public class ResourceController {
 
     @FXML
     private void onSearch() {
-        System.out.println("Search clicked");
+        String searchText = searchField.getText().trim().toLowerCase();
+
+        boolean showDrill =
+                "Cordless Drill".toLowerCase().contains(searchText)
+                        || "Tools".toLowerCase().contains(searchText)
+                        || "David".toLowerCase().contains(searchText);
+
+        boolean showMower =
+                "Lawn Mower".toLowerCase().contains(searchText)
+                        || "Garden Equipment".toLowerCase().contains(searchText)
+                        || "Sarah".toLowerCase().contains(searchText);
+
+        boolean showPrinter =
+                "3D Printer".toLowerCase().contains(searchText)
+                        || "Electronics".toLowerCase().contains(searchText)
+                        || "Michael".toLowerCase().contains(searchText);
+
+        cordlessDrillCard.setVisible(showDrill);
+        cordlessDrillCard.setManaged(showDrill);
+
+        lawnMowerCard.setVisible(showMower);
+        lawnMowerCard.setManaged(showMower);
+
+        printerCard.setVisible(showPrinter);
+        printerCard.setManaged(showPrinter);
     }
 
     @FXML

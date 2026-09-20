@@ -26,7 +26,8 @@
     <!-- Search and buttons -->
     <HBox>
 
-        <TextField promptText="Search for resource..."/>
+        <TextField fx:id="searchField"
+                   promptText="Search for resource..."/>
 
         <Button text="Filters"
                 onAction="#onAddFilters"/>
@@ -45,7 +46,8 @@
               prefColumns="3">
 
         <!-- Cordless Drill -->
-        <VBox onMouseClicked="#onCordlessDrill"
+        <VBox fx:id="cordlessDrillCard"
+              onMouseClicked="#onCordlessDrill"
               style="-fx-cursor: hand;">
 
             <Label text="[Resource Image]"
@@ -76,7 +78,8 @@
         </VBox>
 
         <!-- Lawn Mower -->
-        <VBox onMouseClicked="#onLawnMower"
+        <VBox fx:id="lawnMowerCard"
+              onMouseClicked="#onLawnMower"
               style="-fx-cursor: hand;">
 
             <Label text="[Resource Image]"
@@ -107,7 +110,8 @@
         </VBox>
 
         <!-- 3D Printer -->
-        <VBox onMouseClicked="#on3DPrinter"
+        <VBox fx:id="printerCard"
+              onMouseClicked="#on3DPrinter"
               style="-fx-cursor: hand;">
 
             <Label text="[Resource Image]"
