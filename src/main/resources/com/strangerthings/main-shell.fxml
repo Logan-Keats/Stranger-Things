@@ -13,41 +13,33 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.strangerthings.MainShellController"
             prefHeight="400.0" prefWidth="600.0">
-
-    <!-- top → Header (HBox): app title | user name Label | Logout Button -->
     <top>
         <HBox alignment="CENTER_LEFT" spacing="12.0">
-            <padding>
-                <Insets top="10.0" right="12.0" bottom="10.0" left="12.0"/>
-            </padding>
+            <padding><Insets top="10.0" right="12.0" bottom="10.0" left="12.0"/></padding>
             <children>
                 <Label text="Stranger Things"/>
                 <Region HBox.hgrow="ALWAYS"/>
                 <Label fx:id="userNameLabel" text="User"/>
-                <Button fx:id="logoutButton" text="Logout" onAction="#onLogout"/>
+                <Button text="Logout" onAction="#onLogout"/>
             </children>
         </HBox>
     </top>
-
     <left>
         <VBox spacing="8.0">
-            <padding>
-                <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
-            </padding>
+            <padding><Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/></padding>
             <children>
-                <Button text="Home" maxWidth="Infinity"/>
-                <Button text="Resources" maxWidth="Infinity"/>
+                <Button text="Home" maxWidth="Infinity" onAction="#onHome"/>
+                <Button text="Resources" maxWidth="Infinity" onAction="#onResources"/>
                 <Button text="My Bookings" maxWidth="Infinity" onAction="#onMyBookings"/>
+                <Button fx:id="allBookingsButton" text="All Bookings" maxWidth="Infinity" onAction="#onAllBookings"/>
+                <Button text="Booking Detail" maxWidth="Infinity" onAction="#onBookingDetail"/>
+                <Button fx:id="reportsButton" text="Reports" maxWidth="Infinity" onAction="#onReports"/>
             </children>
         </VBox>
     </left>
-
     <center>
         <StackPane fx:id="contentArea">
-            <children>
-                <Label text="Page content"/>
-            </children>
+            <children><Label text="Page content"/></children>
         </StackPane>
     </center>
-
 </BorderPane>
