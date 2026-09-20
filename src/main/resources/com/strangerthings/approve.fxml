@@ -1,37 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.strangerthings.ApproveController"
-            prefHeight="400.0"
-            prefWidth="600.0">
+<BorderPane xmlns= "http://javafx.com/javafx"
+            xmlns:fx= "http://javafx.com/fxml"
+            fx:controller= "com.strangerthings.ApproveController"
+            prefWidth= "900.0"
+            prefHeight= "600.0">
 
-    <VBox spacing="15"
-          alignment="CENTER"
-          AnchorPane.topAnchor="30.0"
-          AnchorPane.bottomAnchor="30.0"
-          AnchorPane.leftAnchor="30.0"
-          AnchorPane.rightAnchor="30.0">
+    <top>
+        <VBox spacing= "8">
+            <padding>
+                <Insets top="30" right="30" bottom="20" left="30"/>
+            </padding>
 
-        <Label text="Booking Details"/>
-        <Label text="Resource: Example Resource"/>
-        <Label text="Member: Example Member"/>
-        <Label text="Date: Example Date"/>
-        <Label text="Time: Example Time"/>
-        <Label text="Status: Pending"/>
+            <Label text="Booking Management"
+                   style="-fx-font-size: 28px; -fx-font-weight: bold;"/>
 
-        <HBox spacing="10" alignment="CENTER">
-            <Button text="Approve"
-                    onAction="#onApprove"/>
+            <Label text="Review, approve, or reject member booking requests."
+                   style="-fx-font-size: 15px;"/>
+        </VBox>
+    </top>
 
-            <Button text="Reject"
-                    onAction="#onReject"/>
-        </HBox>
-    </VBox>
-</AnchorPane>
+    <center>
+        <VBox spacing="15">
+            <padding>
+                <Insets top="10" right="30" bottom="20" left="30"/>
+            </padding>
+
+            <Label text="All Bookings"
+                   style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+            <TableView fx:id="bookingTable"
+                       prefHeight="350.0"
+                       VBox.vgrow="ALWAYS">
+
+                <columns>
+
+                    <TableColumn fx:id="idColumn"
+                                 text="ID"
+                                 prefWidth="60"/>
+
+                    <TableColumn fx:id="resourceColumn"
+                                 text="Resource"
+                                 prefWidth="160"/>
+
+                    <TableColumn fx:id="borrowerColumn"
+                                 text="Borrower"
+                                 prefWidth="150"/>
+
+                    <TableColumn fx:id="startDateColumn"
+                                 text="Start Date"
+                                 prefWidth="120"/>
+
+                    <TableColumn fx:id="endDateColumn"
+                                 text="End Date"
+                                 prefWidth="120"/>
+
+                    <TableColumn fx:id="statusColumn"
+                                 text="Status"
+                                 prefWidth="120"/>
+
+                </columns>
+            </TableView>
+
+            <HBox spacing="12">
+
+                <Button text="Approve Booking"
+                        prefWidth="150"
+                        prefHeight="35"
+                        onAction="#onApprove"/>
+
+                <Button text="Reject Booking"
+                        prefWidth="150"
+                        prefHeight="35"
+                        onAction="#onReject"/>
+
+            </HBox>
+
+            <Label fx:id="messageLabel"
+                   text="Select a booking from the table."
+                   wrapText="true"
+                   style="-fx-font-size: 14px;"/>
+
+        </VBox>
+    </center>
+
+</BorderPane>
