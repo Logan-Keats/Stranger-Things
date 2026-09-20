@@ -64,7 +64,8 @@ public class MainShellController {
     }
 
     @FXML
-    private void onMyBookings() {
+    private void onMyBookings()
+    {
         loadPage("/com/strangerthings/booking-view.fxml");
     }
 
