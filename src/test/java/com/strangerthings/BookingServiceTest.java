@@ -3,6 +3,7 @@ package com.strangerthings;
 import com.strangerthings.model.Booking;
 import com.strangerthings.model.BookingStatus;
 import org.junit.jupiter.api.Test;
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -14,8 +15,11 @@ public class BookingServiceTest {
         // Arrange
         Booking booking = new Booking(
                 1,
+                1,
                 "Cordless Drill",
                 "Test Member",
+                LocalDate.now(),
+                LocalDate.now().plusDays(3),
                 BookingStatus.APPROVED
         );
 
@@ -33,8 +37,11 @@ public class BookingServiceTest {
         // Arrange
         Booking booking = new Booking(
                 2,
+                2,
                 "Ladder",
                 "Test Member",
+                LocalDate.now(),
+                LocalDate.now().plusDays(3),
                 BookingStatus.ON_LOAN
         );
 
@@ -52,8 +59,11 @@ public class BookingServiceTest {
         // Arrange
         Booking booking = new Booking(
                 3,
+                3,
                 "Pressure Washer",
                 "Test Member",
+                LocalDate.now(),
+                LocalDate.now().plusDays(3),
                 BookingStatus.REQUESTED
         );
 
@@ -71,8 +81,11 @@ public class BookingServiceTest {
         // Arrange
         Booking booking = new Booking(
                 4,
+                4,
                 "Circular Saw",
                 "Test Member",
+                LocalDate.now(),
+                LocalDate.now().plusDays(3),
                 BookingStatus.REQUESTED
         );
 

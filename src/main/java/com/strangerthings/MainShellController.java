@@ -64,15 +64,9 @@ public class MainShellController {
     }
 
     @FXML
-    private void onMyBookings(ActionEvent event)
+    private void onMyBookings()
     {
-        try
-        {
-            Parent view = FXMLLoader.load
-                    (MainShellController.class.getResource("/com/strangerthings/booking-view.fxml"));
-            contentArea.getChildren().setAll(view);
-        }
-        catch (IOException ex) {ex.printStackTrace();}
+        loadPage("/com/strangerthings/booking-view.fxml");
     }
 
     @FXML

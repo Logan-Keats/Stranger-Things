@@ -46,6 +46,7 @@ public class Booking
     {
         this(-1, resourceId, resourceName, borrowerUsername, startDate, endDate, BookingStatus.REQUESTED);
     }
+
     // Getters and Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
@@ -58,6 +59,9 @@ public class Booking
 
     public String getBorrowerUsername() { return borrowerUsername; }
     public void setBorrowerUsername(String borrowerUsername) { this.borrowerUsername = borrowerUsername; }
+
+    // Compatibility patch
+    public String getBorrowerName() { return borrowerUsername; }
 
     public LocalDate getStartDate() {return  startDate;}
     public void setStartDate(LocalDate startDate) {this.startDate = startDate; }
