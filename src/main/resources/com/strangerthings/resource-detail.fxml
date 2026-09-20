@@ -30,32 +30,32 @@
             <VBox spacing="5">
                 <Label text="Resource Name"
                        style="-fx-font-weight: bold;"/>
-                <Label text="Mechanical Toolbox"/>
+                <Label fx:id="resourceNameLabel"/>
             </VBox>
 
             <VBox spacing="5">
                 <Label text="Category"
                        style="-fx-font-weight: bold;"/>
-                <Label text="Tools"/>
+                <Label fx:id="categoryLabel"/>
             </VBox>
 
             <VBox spacing="5">
                 <Label text="Owner"
                        style="-fx-font-weight: bold;"/>
-                <Label text="David"/>
+                <Label fx:id="ownerLabel"/>
             </VBox>
 
             <VBox spacing="5">
                 <Label text="Description"
                        style="-fx-font-weight: bold;"/>
-                <Label text="This is a toolkit used for car repairs"
+                <Label fx:id="descriptionLabel"
                        wrapText="true"/>
             </VBox>
 
             <VBox spacing="5">
                 <Label text="Collection Method"
                        style="-fx-font-weight: bold;"/>
-                <Label text="Pick Up"/>
+                <Label fx:id="collectionMethodLabel"/>
             </VBox>
 
         </VBox>

@@ -2,11 +2,11 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.layout.VBox?>
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
@@ -25,23 +25,29 @@
 
     <!-- Search and buttons -->
     <HBox>
-        <TextField
-                promptText="Search for resource..."/>
+
+        <TextField fx:id="searchField"
+                   promptText="Search for resource..."/>
+
         <Button text="Filters"
                 onAction="#onAddFilters"/>
+
         <Button text="Search"
                 onAction="#onSearch"/>
+
         <Button text="+ Add Resource"
                 onAction="#onAddResource"/>
+
     </HBox>
 
     <!-- Resource cards -->
-    <TilePane
-            hgap="15"
-            vgap="15"
-            prefColumns="3">
+    <TilePane hgap="15"
+              vgap="15"
+              prefColumns="3">
 
-        <VBox onMouseClicked="#onResourceDetails"
+        <!-- Cordless Drill -->
+        <VBox fx:id="cordlessDrillCard"
+              onMouseClicked="#onCordlessDrill"
               style="-fx-cursor: hand;">
 
             <Label text="[Resource Image]"
@@ -49,12 +55,12 @@
                    prefHeight="200"
                    alignment="CENTER"
                    style="-fx-background-color: #2b2b2b;
-                   -fx-text-fill: white;"/>
+                          -fx-text-fill: white;"/>
 
             <HBox spacing="5">
                 <Label text="Resource Name:"
                        style="-fx-font-weight: bold;"/>
-                <Label text="Mechanical Toolbox"/>
+                <Label text="Cordless Drill"/>
             </HBox>
 
             <HBox spacing="5">
@@ -68,6 +74,73 @@
                        style="-fx-font-weight: bold;"/>
                 <Label text="David"/>
             </HBox>
+
         </VBox>
+
+        <!-- Lawn Mower -->
+        <VBox fx:id="lawnMowerCard"
+              onMouseClicked="#onLawnMower"
+              style="-fx-cursor: hand;">
+
+            <Label text="[Resource Image]"
+                   prefWidth="200"
+                   prefHeight="200"
+                   alignment="CENTER"
+                   style="-fx-background-color: #2b2b2b;
+                          -fx-text-fill: white;"/>
+
+            <HBox spacing="5">
+                <Label text="Resource Name:"
+                       style="-fx-font-weight: bold;"/>
+                <Label text="Lawn Mower"/>
+            </HBox>
+
+            <HBox spacing="5">
+                <Label text="Category:"
+                       style="-fx-font-weight: bold;"/>
+                <Label text="Garden Equipment"/>
+            </HBox>
+
+            <HBox spacing="5">
+                <Label text="Owner:"
+                       style="-fx-font-weight: bold;"/>
+                <Label text="Sarah"/>
+            </HBox>
+
+        </VBox>
+
+        <!-- 3D Printer -->
+        <VBox fx:id="printerCard"
+              onMouseClicked="#on3DPrinter"
+              style="-fx-cursor: hand;">
+
+            <Label text="[Resource Image]"
+                   prefWidth="200"
+                   prefHeight="200"
+                   alignment="CENTER"
+                   style="-fx-background-color: #2b2b2b;
+                          -fx-text-fill: white;"/>
+
+            <HBox spacing="5">
+                <Label text="Resource Name:"
+                       style="-fx-font-weight: bold;"/>
+                <Label text="3D Printer"/>
+            </HBox>
+
+            <HBox spacing="5">
+                <Label text="Category:"
+                       style="-fx-font-weight: bold;"/>
+                <Label text="Electronics"/>
+            </HBox>
+
+            <HBox spacing="5">
+                <Label text="Owner:"
+                       style="-fx-font-weight: bold;"/>
+                <Label text="Michael"/>
+            </HBox>
+
+        </VBox>
+
     </TilePane>
+
 </VBox>

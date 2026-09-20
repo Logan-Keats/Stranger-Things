@@ -28,6 +28,12 @@ public class MainShellController {
 
     private Role loggedInRole = Role.MEMBER;
 
+    private String selectedResourceName;
+    private String selectedResourceCategory;
+    private String selectedResourceOwner;
+    private String selectedResourceDescription;
+    private String selectedResourceCollectionMethod;
+
     @FXML
     private void initialize() {
         updateAdminNavigation();
@@ -60,7 +66,7 @@ public class MainShellController {
 
     @FXML
     private void onResources() {
-        loadResourcePage("/com/strangerthings/resource.fxml", this::showAddResource, this::showResourceDetails);
+        showResources();
     }
 
     @FXML
@@ -122,16 +128,82 @@ public class MainShellController {
         loadResourcePage("/com/strangerthings/add-resource.fxml", this::showResources, null);
     }
 
-    private void showResourceDetails() {
-        loadResourcePage("/com/strangerthings/resource-detail.fxml", this::showResources, this::showEditResource);
+    private void showResourceDetails(
+            String name,
+            String category,
+            String owner,
+            String description,
+            String collectionMethod) {
+
+        selectedResourceName = name;
+        selectedResourceCategory = category;
+        selectedResourceOwner = owner;
+        selectedResourceDescription = description;
+        selectedResourceCollectionMethod = collectionMethod;
+
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    MainShellController.class.getResource(
+                            "/com/strangerthings/resource-detail.fxml"
+                    )
+            );
+
+            Parent view = loader.load();
+
+            ResourceDetailController controller = loader.getController();
+
+            controller.setResource(
+                    name,
+                    category,
+                    owner,
+                    description,
+                    collectionMethod
+            );
+
+            controller.setBackNavigation(this::showResources);
+            controller.setEditResourceNavigation(this::showEditResource);
+
+            contentArea.getChildren().setAll(view);
+
+        } catch (IOException | RuntimeException exception) {
+            showUnavailablePage("resource-detail.fxml");
+        }
     }
 
     private void showResources() {
-        loadResourcePage("/com/strangerthings/resource.fxml", this::showAddResource, this::showResourceDetails);
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    MainShellController.class.getResource(
+                            "/com/strangerthings/resource.fxml"
+                    )
+            );
+
+            Parent view = loader.load();
+
+            ResourceController controller = loader.getController();
+
+            controller.setAddResourceNavigation(this::showAddResource);
+            controller.setResourceDetailsNavigation(this::showResourceDetails);
+
+            contentArea.getChildren().setAll(view);
+
+        } catch (IOException | RuntimeException exception) {
+            showUnavailablePage("resource.fxml");
+        }
     }
 
     private void showEditResource() {
-        loadResourcePage("/com/strangerthings/edit-resource.fxml", this::showResourceDetails, null);
+        loadResourcePage(
+                "/com/strangerthings/edit-resource.fxml",
+                () -> showResourceDetails(
+                        selectedResourceName,
+                        selectedResourceCategory,
+                        selectedResourceOwner,
+                        selectedResourceDescription,
+                        selectedResourceCollectionMethod
+                ),
+                null
+        );
     }
 
     private void loadResourcePage(String resourcePath, Runnable backNavigation, Runnable detailNavigation) {
