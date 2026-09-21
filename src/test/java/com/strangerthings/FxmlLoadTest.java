@@ -41,6 +41,8 @@ class FxmlLoadTest {
 
     @Test
     void sectionSixViewsLoad() throws InterruptedException {
+        assertFxmlLoads("/com/strangerthings/login.fxml");
+        assertFxmlLoads("/com/strangerthings/register.fxml");
         assertFxmlLoads("/com/strangerthings/home.fxml");
         assertFxmlLoads("/com/strangerthings/reports.fxml");
         assertFxmlLoads("/com/strangerthings/main-shell.fxml");

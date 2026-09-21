@@ -20,6 +20,7 @@ class ReportDaoTest {
     @BeforeAll
     static void setUpDatabase() throws SQLException {
         System.setProperty("strangerthings.db.url", "jdbc:sqlite:file:report-dao-test?mode=memory&cache=shared");
+        System.setProperty("strangerthings.db.seed", "false");
         anchorConnection = SqliteConnection.getInstance();
         DatabaseInitializer.initialize();
         try (PreparedStatement statement = anchorConnection.prepareStatement(
@@ -34,6 +35,7 @@ class ReportDaoTest {
     static void closeDatabase() throws SQLException {
         anchorConnection.close();
         System.clearProperty("strangerthings.db.url");
+        System.clearProperty("strangerthings.db.seed");
     }
 
     @Test

@@ -51,6 +51,15 @@ public class AuthServiceTest {
         assertEquals(Role.ADMIN, user.getRole());
     }
 
+    @Test
+    void login_withSeededAlexCredentials_returnsMemberUser() {
+        User user = authService.login("Alex", "alex");
+
+        assertNotNull(user);
+        assertEquals("Alex", user.getUsername());
+        assertEquals(Role.MEMBER, user.getRole());
+    }
+
     /**
      * US-1.3: known username with wrong password fails.
      * Stub convention: return null on failure.

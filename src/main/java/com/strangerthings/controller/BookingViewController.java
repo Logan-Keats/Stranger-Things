@@ -1,6 +1,7 @@
 package com.strangerthings.controller;
 
 import com.strangerthings.BookingService;
+import com.strangerthings.UserSession;
 import com.strangerthings.model.Booking;
 import com.strangerthings.model.BookingStatus;
 
@@ -41,7 +42,6 @@ public class BookingViewController {
     private TableColumn<Booking, BookingStatus> statusColumn;
 
     private final BookingService bookingService = BookingService.getInstance();
-    private final String activeUser = "Sam"; // TO MAKE SQL LATER!!!
 
     @FXML
     public void initialize() {
@@ -55,7 +55,8 @@ public class BookingViewController {
     }
 
     public void loadBookings() {
-        ObservableList<Booking> bookings = FXCollections.observableArrayList(bookingService.getUserBookings(activeUser));
+        ObservableList<Booking> bookings = FXCollections.observableArrayList(
+                bookingService.getUserBookings(UserSession.username()));
         bookingTable.setItems(bookings);
     }
 

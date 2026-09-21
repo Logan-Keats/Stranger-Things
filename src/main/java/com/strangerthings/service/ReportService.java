@@ -1,5 +1,8 @@
 package com.strangerthings.service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -7,143 +10,177 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.strangerthings.dao.ReportDao;
+import com.strangerthings.dao.UserDao;
 
-/**
- * Pure Java reporting logic for Home and Reports screens.
- */
+/** Pure Java reporting logic for Home and Reports screens. */
 public class ReportService {
+    private static final DateTimeFormatter DATABASE_TIME = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final DateTimeFormatter DISPLAY_TIME = DateTimeFormatter.ofPattern("dd/MM HH:mm");
 
     private final ReportDao reportDao = new ReportDao();
-
-    private final List<ResourceRecord> resources = List.of(
-            new ResourceRecord("Cordless drill", "Tools", true, 2, 45.00, 5.0),
-            new ResourceRecord("Extension ladder", "Tools", true, 1, 32.50, 4.2),
-            new ResourceRecord("Projector", "Tools", false, 0, 0.00, 3.1),
-            new ResourceRecord("Stand mixer", "Kitchen", true, 1, 20.00, 2.2),
-            new ResourceRecord("Slow cooker", "Kitchen", true, 1, 15.00, 1.5),
-            new ResourceRecord("Camping tent", "Outdoor", false, 1, 20.00, 2.5));
-
-    private final List<AuditEvent> auditEvents = List.of(
-            new AuditEvent("Requested Extension ladder", "Member 1", "26/08 09:10"),
-            new AuditEvent("Flagged Projector listing", "Member 2", "26/08 11:25"),
-            new AuditEvent("Returned Camping tent", "Member 3", "27/08 15:40"),
-            new AuditEvent("Approved Stand mixer", "Admin", "27/08 16:05"));
+    private final UserDao userDao = new UserDao();
 
     public Map<String, Integer> getCategoryDistribution() {
-        Map<String, Integer> databaseDistribution = reportDao.getCategoryDistribution();
-        if (!databaseDistribution.isEmpty()) {
-            return databaseDistribution;
-        }
-        return resources.stream()
-                .collect(Collectors.groupingBy(
-                        ResourceRecord::category,
-                        LinkedHashMap::new,
-                        Collectors.summingInt(resource -> 1)));
+        return reportDao.getCategoryDistribution();
     }
 
     public Map<String, Integer> getBorrowingActivityByDay() {
         Map<String, Integer> activity = new LinkedHashMap<>();
-        activity.put("24/8", 1);
-        activity.put("25/8", 2);
-        activity.put("26/8", 1);
-        activity.put("27/8", 2);
+        reportDao.getBorrowingActivityByDay().forEach((day, count) -> activity.put(formatDay(day), count));
         return activity;
     }
 
     public int getTotalSharedResources() {
-        int databaseCount = reportDao.getTotalSharedCount();
-        return databaseCount > 0 ? databaseCount : resources.size();
+        return reportDao.getTotalSharedCount();
+    }
+
+    public int getTotalSharedResources(String username) {
+        return reportDao.getTotalSharedCount(username);
     }
 
     public int getTotalBorrowedResources() {
-        return resources.stream()
-                .mapToInt(ResourceRecord::borrowCount)
-                .sum();
+        return reportDao.getTotalBorrowingCount();
+    }
+
+    public int getTotalBorrowedResources(String username) {
+        return reportDao.getTotalBorrowingCount(username);
+    }
+
+    public int getTotalMembers() {
+        return userDao.getMemberCount();
     }
 
     public int getActiveListings() {
-        if (reportDao.getTotalSharedCount() > 0) {
-            return reportDao.getActiveListingCount();
-        }
-        return (int) resources.stream()
-                .filter(ResourceRecord::active)
-                .count();
+        return reportDao.getActiveListingCount();
     }
 
     public double getTotalSavings() {
-        return resources.stream()
-                .mapToDouble(ResourceRecord::savings)
-                .sum();
+        return reportDao.getTotalSavings();
+    }
+
+    public double getTotalSavings(String username) {
+        return reportDao.getTotalSavings(username);
     }
 
     public double getCo2AvoidedKg() {
-        return resources.stream()
-                .mapToDouble(ResourceRecord::co2AvoidedKg)
-                .sum();
+        return reportDao.getCo2AvoidedKg();
+    }
+
+    public double getCo2AvoidedKg(String username) {
+        return reportDao.getCo2AvoidedKg(username);
     }
 
     public int getUsageRatePercent() {
-        if (resources.isEmpty()) {
-            return 0;
-        }
-        return (int) Math.round((getActiveListings() * 100.0) / getTotalSharedResources());
+        int sharedResources = getTotalSharedResources();
+        return sharedResources == 0 ? 0 : (int) Math.round(reportDao.getCurrentBorrowingCount() * 100.0 / sharedResources);
     }
 
     public List<AuditEvent> getAuditEvents() {
-        return auditEvents;
+        return toAuditEvents(reportDao.getAuditEvents());
+    }
+
+    public List<AuditEvent> getAuditEvents(String username) {
+        return toAuditEvents(reportDao.getAuditEvents(username));
+    }
+
+    public Map<String, Integer> getCategoryDistribution(String username) {
+        return reportDao.getCategoryDistribution(username);
+    }
+
+    private List<AuditEvent> toAuditEvents(List<ReportDao.AuditRecord> events) {
+        return events.stream()
+                .map(event -> new AuditEvent(event.type(), formatAuditAction(event.action(), event.resourceName()),
+                        event.username(), formatTime(event.occurredAt())))
+                .toList();
     }
 
     public List<String> getRecentActivities() {
-        return auditEvents.stream()
+        return getAuditEvents().stream()
+                .map(event -> event.action() + " - " + event.time())
+                .toList();
+    }
+
+    public List<String> getRecentActivities(String username) {
+        return getAuditEvents(username).stream()
                 .map(event -> event.action() + " - " + event.time())
                 .toList();
     }
 
     public List<String> getRecentJoinStats() {
-        return List.of(
-                "Member 50 joined - 1d",
-                "Member 49 joined - 2d",
-                "Member 48 joined - 3d",
-                "Member 47 joined - 4d");
+        return userDao.findAllMembers().stream()
+                .limit(5)
+                .map(member -> member.username() + " joined - " + formatTime(member.createdAt()))
+                .toList();
+    }
+
+    public List<Member> getAllMembers() {
+        return userDao.findAllUsers().stream()
+                .map(member -> new Member(member.username(), member.role(), formatTime(member.createdAt())))
+                .toList();
     }
 
     public String buildCsv(String reportName) {
-        String normalizedReportName = reportName == null || reportName.isBlank()
-                ? "Usage"
-                : reportName.trim();
-
+        String normalizedReportName = reportName == null || reportName.isBlank() ? "Usage" : reportName.trim();
         if ("Moderation Log".equalsIgnoreCase(normalizedReportName)) {
             return buildModerationCsv();
         }
-
-        List<CsvMetric> metrics = switch (normalizedReportName.toLowerCase()) {
+        List<CsvMetric> metrics = switch (normalizedReportName.toLowerCase(Locale.ROOT)) {
             case "co2 avoided" -> List.of(
                     new CsvMetric(normalizedReportName, "CO2 avoided", formatDecimal(getCo2AvoidedKg()) + " kg"),
-                    new CsvMetric(normalizedReportName, "Active listings", String.valueOf(getActiveListings())));
-            case "member activity" -> List.of(
-                    new CsvMetric(normalizedReportName, "Total borrowed resources",
-                            String.valueOf(getTotalBorrowedResources())),
-                    new CsvMetric(normalizedReportName, "Recent audit events", String.valueOf(getAuditEvents().size())));
+                    new CsvMetric(normalizedReportName, "Money saved", "$" + formatDecimal(getTotalSavings())));
+            case "member activity" -> List.of();
             default -> List.of(
                     new CsvMetric("Usage", "Total shared resources", String.valueOf(getTotalSharedResources())),
-                    new CsvMetric("Usage", "Total borrowed resources", String.valueOf(getTotalBorrowedResources())),
+                    new CsvMetric("Usage", "Total borrowings", String.valueOf(getTotalBorrowedResources())),
                     new CsvMetric("Usage", "Usage rate", getUsageRatePercent() + "%"));
         };
-
-        return "Report,Metric,Value\n"
-                + metrics.stream()
-                        .map(metric -> csv(metric.report()) + "," + csv(metric.metric()) + "," + csv(metric.value()))
-                        .collect(Collectors.joining("\n"));
+        if ("Member Activity".equalsIgnoreCase(normalizedReportName)) {
+            return buildMemberActivityCsv();
+        }
+        return "Report,Metric,Value\n" + metrics.stream()
+                .map(metric -> csv(metric.report()) + "," + csv(metric.metric()) + "," + csv(metric.value()))
+                .collect(Collectors.joining("\n"));
     }
 
-    public record AuditEvent(String action, String user, String time) {
+    public record AuditEvent(String type, String action, String user, String time) {
+    }
+
+    public record Member(String username, String role, String joinedAt) {
     }
 
     private String buildModerationCsv() {
-        return "Action,User,Time\n"
-                + auditEvents.stream()
-                        .map(event -> csv(event.action()) + "," + csv(event.user()) + "," + csv(event.time()))
+        return "Type,Action,User,Time\n" + getAuditEvents().stream()
+                .map(event -> csv(event.type()) + "," + csv(event.action()) + "," + csv(event.user()) + "," + csv(event.time()))
+                .collect(Collectors.joining("\n"));
+    }
+
+    private String buildMemberActivityCsv() {
+        return "Username,Role,Resources shared,Bookings,Audit activities\n"
+                + userDao.findUserActivities().stream()
+                        .map(activity -> csv(activity.username()) + "," + csv(activity.role()) + ","
+                                + activity.resourceCount() + "," + activity.bookingCount() + ","
+                                + activity.activityCount())
                         .collect(Collectors.joining("\n"));
+    }
+
+    private String formatAuditAction(String action, String resourceName) {
+        return resourceName == null || resourceName.isBlank() ? action : action + ": " + resourceName;
+    }
+
+    private String formatDay(String value) {
+        try {
+            return LocalDateTime.parse(value + " 00:00:00", DATABASE_TIME).format(DateTimeFormatter.ofPattern("d/M"));
+        } catch (DateTimeParseException exception) {
+            return value;
+        }
+    }
+
+    private String formatTime(String value) {
+        try {
+            return LocalDateTime.parse(value, DATABASE_TIME).format(DISPLAY_TIME);
+        } catch (DateTimeParseException exception) {
+            return value;
+        }
     }
 
     private String formatDecimal(double value) {
@@ -158,15 +195,6 @@ public class ReportService {
             return "\"" + value.replace("\"", "\"\"") + "\"";
         }
         return value;
-    }
-
-    private record ResourceRecord(
-            String name,
-            String category,
-            boolean active,
-            int borrowCount,
-            double savings,
-            double co2AvoidedKg) {
     }
 
     private record CsvMetric(String report, String metric, String value) {

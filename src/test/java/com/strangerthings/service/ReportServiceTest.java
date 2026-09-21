@@ -25,9 +25,9 @@ public class ReportServiceTest {
     void getCategoryDistribution_countsResourcesByCategory() {
         Map<String, Integer> distribution = reportService.getCategoryDistribution();
 
-        assertEquals(3, distribution.get("Tools"));
-        assertEquals(2, distribution.get("Kitchen"));
-        assertEquals(1, distribution.get("Outdoor"));
+        assertEquals(1, distribution.get("Tools"));
+        assertEquals(1, distribution.get("Garden Equipment"));
+        assertEquals(1, distribution.get("Electronics"));
     }
 
     @Test
@@ -45,7 +45,7 @@ public class ReportServiceTest {
         String csv = reportService.buildCsv("Usage");
 
         assertTrue(csv.startsWith("Report,Metric,Value"));
-        assertTrue(csv.contains("Usage,Total shared resources,6"));
+        assertTrue(csv.contains("Usage,Total shared resources,3"));
         assertTrue(csv.contains("Usage,Usage rate,67%"));
     }
 }
