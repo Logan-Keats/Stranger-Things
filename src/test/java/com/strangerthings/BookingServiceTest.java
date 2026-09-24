@@ -48,7 +48,10 @@ public class BookingServiceTest {
                 BookingStatus.ON_LOAN
         );
 
-        BookingService service = new BookingService(new InMemoryBookingDao());
+        InMemoryBookingDao dao = new InMemoryBookingDao();
+        dao.create(booking);
+
+        BookingService service = new BookingService(dao);
 
         // Act
         service.markReturned(booking);
@@ -124,6 +127,31 @@ public class BookingServiceTest {
         );
 
         assertEquals(BookingStatus.APPROVED, booking.getStatus());
+    }
+
+    @Test
+    void bookingStatusDoesNotChangeWhenReturnPersistenceFails() {
+        // Arrange
+        Booking booking = new Booking(
+                6,
+                2,
+                "Lawn Mower",
+                "Test Member",
+                LocalDate.now(),
+                LocalDate.now().plusDays(3),
+                BookingStatus.ON_LOAN
+        );
+
+        InMemoryBookingDao dao = new InMemoryBookingDao();
+        BookingService service = new BookingService(dao);
+
+        // Act & Assert
+        assertThrows(
+                IllegalStateException.class,
+                () -> service.markReturned(booking)
+        );
+
+        assertEquals(BookingStatus.ON_LOAN, booking.getStatus());
     }
 
 }

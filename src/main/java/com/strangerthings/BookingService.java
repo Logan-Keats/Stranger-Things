@@ -76,10 +76,23 @@ public class BookingService {
 
     public void markReturned(Booking booking) {
         if (booking.getStatus() != BookingStatus.ON_LOAN) {
-            throw new IllegalStateException("Booking must be on loan before it can be returned.");
+            throw new IllegalStateException(
+                    "Booking must be on loan before it can be returned."
+            );
         }
+
+        boolean updated = bookingDao.updateStatus(
+                booking.getId(),
+                BookingStatus.RETURNED
+        );
+
+        if (!updated) {
+            throw new IllegalStateException(
+                    "Failed to update booking status."
+            );
+        }
+
         booking.setStatus(BookingStatus.RETURNED);
-        bookingDao.updateStatus(booking.getId(), booking.getStatus());
     }
 
     public boolean saveStatus(Booking booking) {
