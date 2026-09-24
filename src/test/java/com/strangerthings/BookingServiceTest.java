@@ -23,7 +23,7 @@ public class BookingServiceTest {
                 BookingStatus.APPROVED
         );
 
-        BookingService service = new BookingService();
+        BookingService service = new BookingService(new InMemoryBookingDao());
 
         // Act
         service.markOnLoan(booking);
@@ -45,7 +45,7 @@ public class BookingServiceTest {
                 BookingStatus.ON_LOAN
         );
 
-        BookingService service = new BookingService();
+        BookingService service = new BookingService(new InMemoryBookingDao());
 
         // Act
         service.markReturned(booking);
@@ -67,7 +67,7 @@ public class BookingServiceTest {
                 BookingStatus.REQUESTED
         );
 
-        BookingService service = new BookingService();
+        BookingService service = new BookingService(new InMemoryBookingDao());
 
         // Act & Assert
         assertThrows(
@@ -89,7 +89,7 @@ public class BookingServiceTest {
                 BookingStatus.REQUESTED
         );
 
-        BookingService service = new BookingService();
+        BookingService service = new BookingService(new InMemoryBookingDao());
 
         // Act & Assert
         assertThrows(

@@ -17,7 +17,7 @@ public class BookingViewTest
     @BeforeEach
     void setup()
     {
-        bookingTest = new BookingService();
+        bookingTest = new BookingService(new InMemoryBookingDao());
     }
 
     @Test

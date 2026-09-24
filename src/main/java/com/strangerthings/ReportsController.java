@@ -62,7 +62,8 @@ public class ReportsController {
         ObservableList<AuditEvent> events = FXCollections.observableArrayList(reportService.getAuditEvents());
         filteredAuditEvents = new FilteredList<>(events);
         auditTable.setItems(filteredAuditEvents);
-        auditTypeFilter.getItems().setAll("All types", "Requested", "Returned", "Approved", "Flagged");
+        auditTypeFilter.getItems().setAll("All types");
+        events.stream().map(AuditEvent::type).distinct().sorted().forEach(auditTypeFilter.getItems()::add);
         auditTypeFilter.setValue("All types");
         auditSearchField.textProperty().addListener((observable, oldValue, newValue) -> applyAuditFilters());
     }
@@ -72,7 +73,7 @@ public class ReportsController {
         String selectedType = auditTypeFilter.getValue();
         filteredAuditEvents.setPredicate(event -> {
             boolean matchesType = selectedType == null || "All types".equals(selectedType)
-                    || event.action().startsWith(selectedType);
+                    || event.type().equalsIgnoreCase(selectedType);
             boolean matchesSearch = searchText.isEmpty()
                     || event.action().toLowerCase(Locale.ROOT).contains(searchText)
                     || event.user().toLowerCase(Locale.ROOT).contains(searchText)

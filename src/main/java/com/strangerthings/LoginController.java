@@ -48,6 +48,7 @@ public class LoginController {
 
         if (user != null) {
             errorLabel.setText("");
+            UserSession.setCurrentUser(user);
             try {
                 FXMLLoader loader = new FXMLLoader(
                         LoginController.class.getResource("/com/strangerthings/main-shell.fxml"));
@@ -63,6 +64,17 @@ public class LoginController {
             }
         } else {
             errorLabel.setText("Invalid username or password");
+        }
+    }
+
+    @FXML
+    private void onRegister(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(LoginController.class.getResource("/com/strangerthings/register.fxml"));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root, 600, 400));
+        } catch (IOException exception) {
+            errorLabel.setText("Failed to load registration");
         }
     }
 }

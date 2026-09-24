@@ -19,7 +19,7 @@ public class BookingAddTest
     @BeforeEach
     void setup()
     {
-        bookingTest = new BookingService();
+        bookingTest = new BookingService(new InMemoryBookingDao());
     }
 
     @Test

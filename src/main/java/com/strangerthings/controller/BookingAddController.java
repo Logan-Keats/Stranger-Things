@@ -1,6 +1,7 @@
 package com.strangerthings.controller;
 
 import com.strangerthings.BookingService;
+import com.strangerthings.UserSession;
 
 import javafx.fxml.FXML;
 
@@ -37,7 +38,12 @@ public class BookingAddController
         String resourceName = resourceNameField.getText() == null ? "" : resourceNameField.getText().trim();
         LocalDate startDate = startDatePicker.getValue();
         LocalDate endDate = endDatePicker.getValue();
-        String activeUser = "Sam"; // Mock session user
+        String activeUser = UserSession.username();
+
+        if (activeUser.isBlank()) {
+            errorLabel.setText("Please log in before creating a booking request.");
+            return;
+        }
 
         boolean success = bookingService.requestBooking(1, resourceName, activeUser, startDate, endDate);
 
