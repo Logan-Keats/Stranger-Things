@@ -55,10 +55,23 @@ public class BookingService {
 
     public void markOnLoan(Booking booking) {
         if (booking.getStatus() != BookingStatus.APPROVED) {
-            throw new IllegalStateException("Booking must be approved before it can be marked on loan.");
+            throw new IllegalStateException(
+                    "Booking must be approved before it can be marked on loan."
+            );
         }
+
+        boolean updated = bookingDao.updateStatus(
+                booking.getId(),
+                BookingStatus.ON_LOAN
+        );
+
+        if (!updated) {
+            throw new IllegalStateException(
+                    "Failed to update booking status."
+            );
+        }
+
         booking.setStatus(BookingStatus.ON_LOAN);
-        bookingDao.updateStatus(booking.getId(), booking.getStatus());
     }
 
     public void markReturned(Booking booking) {
