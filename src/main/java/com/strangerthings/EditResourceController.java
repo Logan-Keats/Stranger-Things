@@ -1,5 +1,9 @@
 package com.strangerthings;
 
+import com.strangerthings.dao.ResourceDao;
+import com.strangerthings.dao.SqliteResourceDao;
+import com.strangerthings.model.Resource;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -24,6 +28,12 @@ public class EditResourceController {
     private Label errorLabel;
 
     private Runnable cancelNavigation;
+    private Runnable saveNavigation;
+
+    private Resource resource;
+
+    private final ResourceService resourceService = new ResourceService();
+    private final ResourceDao resourceDao = new SqliteResourceDao();
 
     @FXML
     private void initialize() {
@@ -41,10 +51,15 @@ public class EditResourceController {
                 "Delivery",
                 "Meet Up"
         );
+    }
 
-        // Temporary prototype values until database is implemented
-        categoryBox.setValue("Tools");
-        collectionMethodBox.setValue("Pick Up");
+    public void setResource(Resource resource) {
+        this.resource = resource;
+
+        resourceNameField.setText(resource.getName());
+        descriptionField.setText(resource.getDescription());
+        categoryBox.setValue(resource.getCategory());
+        collectionMethodBox.setValue(resource.getCollectionMethod());
     }
 
     @FXML
@@ -61,10 +76,55 @@ public class EditResourceController {
 
     @FXML
     private void onSaveChanges() {
-        System.out.println("Save Changes clicked");
+
+        boolean valid = resourceService.isValidResource(
+                resourceNameField.getText(),
+                descriptionField.getText(),
+                categoryBox.getValue(),
+                collectionMethodBox.getValue()
+        );
+
+        if (!valid) {
+            errorLabel.setText("Please complete all resource details.");
+            return;
+        }
+
+        if (resource == null) {
+            errorLabel.setText("Unable to find resource.");
+            return;
+        }
+
+        Resource updatedResource = new Resource(
+                resource.getId(),
+                resourceNameField.getText().trim(),
+                categoryBox.getValue(),
+                resource.getStatus(),
+                resource.getOwnerUsername(),
+                descriptionField.getText().trim(),
+                collectionMethodBox.getValue(),
+                resource.getEstimatedSavings(),
+                resource.getCo2AvoidedKg()
+        );
+
+        boolean updated = resourceDao.update(updatedResource);
+
+        if (updated) {
+            resource = updatedResource;
+            errorLabel.setText("");
+
+            if (saveNavigation != null) {
+                saveNavigation.run();
+            }
+        } else {
+            errorLabel.setText("Unable to update resource.");
+        }
     }
 
     public void setCancelNavigation(Runnable cancelNavigation) {
         this.cancelNavigation = cancelNavigation;
+    }
+
+    public void setSaveNavigation(Runnable saveNavigation) {
+        this.saveNavigation = saveNavigation;
     }
 }

@@ -40,7 +40,6 @@
                 <Label text="Resource Name"/>
 
                 <TextField fx:id="resourceNameField"
-                           text="Mechanical Toolbox"
                            prefWidth="250"/>
             </VBox>
 
@@ -49,7 +48,6 @@
                 <Label text="Description"/>
 
                 <TextArea fx:id="descriptionField"
-                          text="This is a toolkit used for car repairs"
                           prefWidth="250"
                           prefRowCount="3"
                           wrapText="true"/>

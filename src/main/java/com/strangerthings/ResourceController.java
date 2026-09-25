@@ -1,34 +1,38 @@
 package com.strangerthings;
 
+import java.util.List;
+
+import com.strangerthings.dao.ResourceDao;
+import com.strangerthings.dao.SqliteResourceDao;
+import com.strangerthings.model.Resource;
+
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 
 public class ResourceController {
-
-    private Runnable addResourceNavigation;
-    private ResourceNavigation resourceDetailsNavigation;
 
     @FXML
     private TextField searchField;
 
     @FXML
-    private VBox cordlessDrillCard;
+    private TilePane resourceTilePane;
 
-    @FXML
-    private VBox lawnMowerCard;
+    private final ResourceDao resourceDao = new SqliteResourceDao();
 
-    @FXML
-    private VBox printerCard;
+    private Runnable addResourceNavigation;
+    private ResourceNavigation resourceDetailsNavigation;
 
     public interface ResourceNavigation {
-        void openResource(
-                String name,
-                String category,
-                String owner,
-                String description,
-                String collectionMethod
-        );
+        void openResource(Resource resource);
+    }
+
+    @FXML
+    private void initialize() {
+        displayResources(resourceDao.findAll());
     }
 
     public void setAddResourceNavigation(Runnable addResourceNavigation) {
@@ -48,29 +52,18 @@ public class ResourceController {
     private void onSearch() {
         String searchText = searchField.getText().trim().toLowerCase();
 
-        boolean showDrill =
-                "Cordless Drill".toLowerCase().contains(searchText)
-                        || "Tools".toLowerCase().contains(searchText)
-                        || "David".toLowerCase().contains(searchText);
+        List<Resource> resources = resourceDao.findAll();
 
-        boolean showMower =
-                "Lawn Mower".toLowerCase().contains(searchText)
-                        || "Garden Equipment".toLowerCase().contains(searchText)
-                        || "Sarah".toLowerCase().contains(searchText);
+        if (!searchText.isEmpty()) {
+            resources = resources.stream()
+                    .filter(resource ->
+                            resource.getName().toLowerCase().contains(searchText)
+                                    || resource.getCategory().toLowerCase().contains(searchText)
+                                    || resource.getOwnerUsername().toLowerCase().contains(searchText))
+                    .toList();
+        }
 
-        boolean showPrinter =
-                "3D Printer".toLowerCase().contains(searchText)
-                        || "Electronics".toLowerCase().contains(searchText)
-                        || "Michael".toLowerCase().contains(searchText);
-
-        cordlessDrillCard.setVisible(showDrill);
-        cordlessDrillCard.setManaged(showDrill);
-
-        lawnMowerCard.setVisible(showMower);
-        lawnMowerCard.setManaged(showMower);
-
-        printerCard.setVisible(showPrinter);
-        printerCard.setManaged(showPrinter);
+        displayResources(resources);
     }
 
     @FXML
@@ -80,42 +73,68 @@ public class ResourceController {
         }
     }
 
-    @FXML
-    private void onCordlessDrill() {
-        if (resourceDetailsNavigation != null) {
-            resourceDetailsNavigation.openResource(
-                    "Cordless Drill",
-                    "Tools",
-                    "David",
-                    "Cordless power drill suitable for basic household repairs and DIY projects.",
-                    "Pick Up"
-            );
+    private void displayResources(List<Resource> resources) {
+        resourceTilePane.getChildren().clear();
+
+        for (Resource resource : resources) {
+            VBox card = createResourceCard(resource);
+            resourceTilePane.getChildren().add(card);
         }
     }
 
-    @FXML
-    private void onLawnMower() {
-        if (resourceDetailsNavigation != null) {
-            resourceDetailsNavigation.openResource(
-                    "Lawn Mower",
-                    "Garden Equipment",
-                    "Sarah",
-                    "Electric lawn mower suitable for small to medium-sized lawns.",
-                    "Pick Up"
-            );
-        }
+    private VBox createResourceCard(Resource resource) {
+        VBox card = new VBox(5);
+        card.setStyle("-fx-cursor: hand;");
+
+        Label imageLabel = new Label("[Resource Image]");
+        imageLabel.setPrefWidth(200);
+        imageLabel.setPrefHeight(200);
+        imageLabel.setAlignment(javafx.geometry.Pos.CENTER);
+        imageLabel.setStyle(
+                "-fx-background-color: #2b2b2b;" +
+                        "-fx-text-fill: white;"
+        );
+
+        HBox nameRow = createDetailRow(
+                "Resource Name:",
+                resource.getName()
+        );
+
+        HBox categoryRow = createDetailRow(
+                "Category:",
+                resource.getCategory()
+        );
+
+        HBox ownerRow = createDetailRow(
+                "Owner:",
+                resource.getOwnerUsername()
+        );
+
+        card.getChildren().addAll(
+                imageLabel,
+                nameRow,
+                categoryRow,
+                ownerRow
+        );
+
+        card.setOnMouseClicked(event -> {
+            if (resourceDetailsNavigation != null) {
+                resourceDetailsNavigation.openResource(resource);
+            }
+        });
+
+        return card;
     }
 
-    @FXML
-    private void on3DPrinter() {
-        if (resourceDetailsNavigation != null) {
-            resourceDetailsNavigation.openResource(
-                    "3D Printer",
-                    "Electronics",
-                    "Michael",
-                    "3D printer available for small personal projects and prototype printing.",
-                    "Pick Up"
-            );
-        }
+    private HBox createDetailRow(String title, String value) {
+        Label titleLabel = new Label(title);
+        titleLabel.setStyle("-fx-font-weight: bold;");
+
+        Label valueLabel = new Label(value);
+
+        HBox row = new HBox(5);
+        row.getChildren().addAll(titleLabel, valueLabel);
+
+        return row;
     }
 }

@@ -1,5 +1,9 @@
 package com.strangerthings;
 
+import com.strangerthings.dao.ResourceDao;
+import com.strangerthings.dao.SqliteResourceDao;
+import com.strangerthings.model.Resource;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -9,6 +13,7 @@ import javafx.scene.control.TextField;
 public class AddResourceController {
 
     private Runnable cancelNavigation;
+    private String loggedInUsername;
 
     @FXML
     private TextField resourceNameField;
@@ -26,6 +31,7 @@ public class AddResourceController {
     private Label errorLabel;
 
     private final ResourceService resourceService = new ResourceService();
+    private final ResourceDao resourceDao = new SqliteResourceDao();
 
     @FXML
     private void initialize() {
@@ -67,11 +73,37 @@ public class AddResourceController {
                 collectionMethodBox.getValue()
         );
 
-        if (valid) {
-            errorLabel.setText("");
-            System.out.println("Register resource clicked");
-        } else {
+        if (!valid) {
             errorLabel.setText("Please complete all resource details.");
+            return;
+        }
+
+        if (loggedInUsername == null || loggedInUsername.isBlank()) {
+            errorLabel.setText("Unable to identify the logged in user.");
+            return;
+        }
+
+        Resource resource = new Resource(
+                resourceNameField.getText().trim(),
+                categoryBox.getValue(),
+                "ACTIVE",
+                loggedInUsername,
+                descriptionField.getText().trim(),
+                collectionMethodBox.getValue(),
+                0.0,
+                0.0
+        );
+
+        boolean created = resourceDao.create(resource);
+
+        if (created) {
+            errorLabel.setText("");
+
+            if (cancelNavigation != null) {
+                cancelNavigation.run();
+            }
+        } else {
+            errorLabel.setText("Unable to register resource.");
         }
     }
 
@@ -79,4 +111,7 @@ public class AddResourceController {
         this.cancelNavigation = cancelNavigation;
     }
 
+    public void setLoggedInUsername(String loggedInUsername) {
+        this.loggedInUsername = loggedInUsername;
+    }
 }

@@ -16,15 +16,17 @@
       spacing="10">
 
     <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
+        <Insets top="20"
+                right="20"
+                bottom="20"
+                left="20"/>
     </padding>
 
     <Label text="Resource Catalogue"
            style="-fx-font-size: 20px;
                   -fx-font-weight: bold;"/>
 
-    <!-- Search and buttons -->
-    <HBox>
+    <HBox spacing="5">
 
         <TextField fx:id="searchField"
                    promptText="Search for resource..."/>
@@ -40,107 +42,9 @@
 
     </HBox>
 
-    <!-- Resource cards -->
-    <TilePane hgap="15"
+    <TilePane fx:id="resourceTilePane"
+              hgap="15"
               vgap="15"
-              prefColumns="3">
-
-        <!-- Cordless Drill -->
-        <VBox fx:id="cordlessDrillCard"
-              onMouseClicked="#onCordlessDrill"
-              style="-fx-cursor: hand;">
-
-            <Label text="[Resource Image]"
-                   prefWidth="200"
-                   prefHeight="200"
-                   alignment="CENTER"
-                   style="-fx-background-color: #2b2b2b;
-                          -fx-text-fill: white;"/>
-
-            <HBox spacing="5">
-                <Label text="Resource Name:"
-                       style="-fx-font-weight: bold;"/>
-                <Label text="Cordless Drill"/>
-            </HBox>
-
-            <HBox spacing="5">
-                <Label text="Category:"
-                       style="-fx-font-weight: bold;"/>
-                <Label text="Tools"/>
-            </HBox>
-
-            <HBox spacing="5">
-                <Label text="Owner:"
-                       style="-fx-font-weight: bold;"/>
-                <Label text="David"/>
-            </HBox>
-
-        </VBox>
-
-        <!-- Lawn Mower -->
-        <VBox fx:id="lawnMowerCard"
-              onMouseClicked="#onLawnMower"
-              style="-fx-cursor: hand;">
-
-            <Label text="[Resource Image]"
-                   prefWidth="200"
-                   prefHeight="200"
-                   alignment="CENTER"
-                   style="-fx-background-color: #2b2b2b;
-                          -fx-text-fill: white;"/>
-
-            <HBox spacing="5">
-                <Label text="Resource Name:"
-                       style="-fx-font-weight: bold;"/>
-                <Label text="Lawn Mower"/>
-            </HBox>
-
-            <HBox spacing="5">
-                <Label text="Category:"
-                       style="-fx-font-weight: bold;"/>
-                <Label text="Garden Equipment"/>
-            </HBox>
-
-            <HBox spacing="5">
-                <Label text="Owner:"
-                       style="-fx-font-weight: bold;"/>
-                <Label text="Sarah"/>
-            </HBox>
-
-        </VBox>
-
-        <!-- 3D Printer -->
-        <VBox fx:id="printerCard"
-              onMouseClicked="#on3DPrinter"
-              style="-fx-cursor: hand;">
-
-            <Label text="[Resource Image]"
-                   prefWidth="200"
-                   prefHeight="200"
-                   alignment="CENTER"
-                   style="-fx-background-color: #2b2b2b;
-                          -fx-text-fill: white;"/>
-
-            <HBox spacing="5">
-                <Label text="Resource Name:"
-                       style="-fx-font-weight: bold;"/>
-                <Label text="3D Printer"/>
-            </HBox>
-
-            <HBox spacing="5">
-                <Label text="Category:"
-                       style="-fx-font-weight: bold;"/>
-                <Label text="Electronics"/>
-            </HBox>
-
-            <HBox spacing="5">
-                <Label text="Owner:"
-                       style="-fx-font-weight: bold;"/>
-                <Label text="Michael"/>
-            </HBox>
-
-        </VBox>
-
-    </TilePane>
+              prefColumns="3"/>
 
 </VBox>
