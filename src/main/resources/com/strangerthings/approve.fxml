@@ -83,6 +83,11 @@
                         prefHeight="35"
                         onAction="#onReject"/>
 
+                <Button text="View Details"
+                        prefWidth="150"
+                        prefHeight="35"
+                        onAction="#onViewDetails"/>
+
             </HBox>
 
             <Label fx:id="messageLabel"

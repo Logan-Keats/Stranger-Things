@@ -20,21 +20,46 @@
 
     <GridPane hgap="15" vgap="10">
 
-        <Label text="Booking ID:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-        <Label fx:id="bookingIdLabel" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+        <Label text="Booking ID:"
+               GridPane.columnIndex="0"
+               GridPane.rowIndex="0"/>
+        <Label fx:id="bookingIdLabel"
+               GridPane.columnIndex="1"
+               GridPane.rowIndex="0"/>
 
-        <Label text="Resource:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-        <Label fx:id="resourceNameLabel" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <Label text="Resource:"
+               GridPane.columnIndex="0"
+               GridPane.rowIndex="1"/>
+        <Label fx:id="resourceNameLabel"
+               GridPane.columnIndex="1"
+               GridPane.rowIndex="1"/>
 
-        <Label text="Borrower:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-        <Label fx:id="borrowerNameLabel" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <Label text="Borrower:"
+               GridPane.columnIndex="0"
+               GridPane.rowIndex="2"/>
+        <Label fx:id="borrowerNameLabel"
+               GridPane.columnIndex="1"
+               GridPane.rowIndex="2"/>
 
-        <Label text="Status:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-        <Label fx:id="statusLabel" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        <Label text="Status:"
+               GridPane.columnIndex="0"
+               GridPane.rowIndex="3"/>
+        <Label fx:id="statusLabel"
+               GridPane.columnIndex="1"
+               GridPane.rowIndex="3"/>
 
     </GridPane>
 
-    <Button text="Mark On Loan" onAction="#onMarkOnLoan"/>
-    <Button text="Mark Returned" onAction="#onMarkReturned"/>
+    <Button fx:id="markOnLoanButton"
+            text="Mark On Loan"
+            onAction="#onMarkOnLoan"/>
+
+    <Button fx:id="markReturnedButton"
+            text="Mark Returned"
+            onAction="#onMarkReturned"/>
+
+    <Label fx:id="messageLabel"
+           wrapText="true"
+           style="-fx-font-size: 14px;"/>
 
 </VBox>

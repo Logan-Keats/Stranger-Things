@@ -3,7 +3,6 @@ package com.strangerthings;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Constructor;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +14,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
+import com.strangerthings.model.Booking;
+import com.strangerthings.controller.BookingDetailController;
 
 /**
  * Shared application shell and integration point for Sections 2-6.
@@ -77,20 +79,30 @@ public class MainShellController {
 
     @FXML
     private void onAllBookings() {
-        loadPage("/com/strangerthings/approve.fxml");
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    MainShellController.class.getResource(
+                            "/com/strangerthings/approve.fxml"
+                    )
+            );
+
+            Parent view = loader.load();
+
+            ApproveController controller = loader.getController();
+            controller.setBookingDetailNavigation(this::showBookingDetail);
+
+            contentArea.getChildren().setAll(view);
+
+        } catch (IOException | RuntimeException exception) {
+            showUnavailablePage("approve.fxml");
+        }
     }
 
     @FXML
     private void onBookingDetail() {
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                    MainShellController.class.getResource("/com/strangerthings/booking-detail.fxml"));
-            Parent view = loader.load();
-            configurePrototypeBooking(loader.getController());
-            contentArea.getChildren().setAll(view);
-        } catch (IOException | RuntimeException exception) {
-            showUnavailablePage("booking-detail.fxml");
-        }
+        showUnavailablePage(
+                "Select a booking from All Bookings to view its details."
+        );
     }
 
     @FXML
@@ -206,6 +218,30 @@ public class MainShellController {
         );
     }
 
+    private void showBookingDetail(Booking booking) {
+        if (booking == null) {
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    MainShellController.class.getResource(
+                            "/com/strangerthings/booking-detail.fxml"
+                    )
+            );
+
+            Parent view = loader.load();
+
+            BookingDetailController controller = loader.getController();
+            controller.setBooking(booking);
+
+            contentArea.getChildren().setAll(view);
+
+        } catch (IOException | RuntimeException exception) {
+            showUnavailablePage("booking-detail.fxml");
+        }
+    }
+
     private void loadResourcePage(String resourcePath, Runnable backNavigation, Runnable detailNavigation) {
         try {
             FXMLLoader loader = new FXMLLoader(MainShellController.class.getResource(resourcePath));
@@ -239,28 +275,6 @@ public class MainShellController {
         }
     }
 
-    /**
-     * Preserves S5's temporary prototype booking once its model/controller
-     * classes are present.
-     */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    private void configurePrototypeBooking(Object controller) {
-        if (controller == null) {
-            return;
-        }
-        try {
-            Class<?> statusClass = Class.forName("com.strangerthings.model.BookingStatus");
-            Object approved = Enum.valueOf((Class<? extends Enum>) statusClass.asSubclass(Enum.class), "APPROVED");
-            Class<?> bookingClass = Class.forName("com.strangerthings.model.Booking");
-            Constructor<?> constructor = bookingClass.getConstructor(int.class, String.class, String.class, statusClass);
-            Object booking = constructor.newInstance(1, "Power Drill", "member", approved);
-            controller.getClass().getMethod("setBooking", bookingClass).invoke(controller, booking);
-        } catch (ClassNotFoundException | NoSuchMethodException exception) {
-            // S5 has not been merged yet, so the booking page remains standalone.
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException exception) {
-            throw new IllegalStateException("Unable to configure the S5 booking detail page.", exception);
-        }
-    }
 
     private void loadPage(String resourcePath) {
         try {
