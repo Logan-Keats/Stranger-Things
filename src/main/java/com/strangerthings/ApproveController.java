@@ -2,6 +2,7 @@ package com.strangerthings;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.function.Consumer;
 
 import com.strangerthings.model.Booking;
 import com.strangerthings.model.BookingStatus;
@@ -17,6 +18,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class ApproveController {
     private final ApprovalService approvalService = new ApprovalService();
     private final BookingService bookingService = BookingService.getInstance();
+
+    private Consumer<Booking> bookingDetailNavigation;
 
     @FXML private TableView<Booking> bookingTable;
     @FXML private TableColumn<Booking, Integer> idColumn;
@@ -36,6 +39,33 @@ public class ApproveController {
         endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
         loadBookings();
+    }
+
+    /** Allows the main shell to control navigation to Booking Detail. */
+
+    public void setBookingDetailNavigation(
+            Consumer<Booking> bookingDetailNavigation
+    ) {
+        this.bookingDetailNavigation = bookingDetailNavigation;
+    }
+
+     /** Opens Booking Detail for the booking selected in the table. */
+
+    @FXML
+    private void onViewDetails() {
+        Booking booking =
+                bookingTable.getSelectionModel().getSelectedItem();
+
+        if (booking == null) {
+            messageLabel.setText(
+                    "Select a booking from the table."
+            );
+            return;
+        }
+
+        if (bookingDetailNavigation != null) {
+            bookingDetailNavigation.accept(booking);
+        }
     }
 
     @FXML

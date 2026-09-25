@@ -32,6 +32,13 @@ final class InMemoryBookingDao implements BookingDao {
     }
 
     @Override
+    public List<Booking> findByResourceId(int resourceId) {
+        return bookings.stream()
+                .filter(booking -> booking.getResourceId() == resourceId)
+                .toList();
+    }
+
+    @Override
     public boolean updateStatus(int bookingId, BookingStatus status) {
         return bookings.stream()
                 .filter(booking -> booking.getId() == bookingId)

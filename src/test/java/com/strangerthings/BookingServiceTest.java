@@ -1,5 +1,7 @@
 package com.strangerthings;
 
+import java.util.List;
+
 import com.strangerthings.model.Booking;
 import com.strangerthings.model.BookingStatus;
 import org.junit.jupiter.api.Test;
@@ -23,7 +25,10 @@ public class BookingServiceTest {
                 BookingStatus.APPROVED
         );
 
-        BookingService service = new BookingService(new InMemoryBookingDao());
+        InMemoryBookingDao dao = new InMemoryBookingDao();
+        dao.create(booking);
+
+        BookingService service = new BookingService(dao);
 
         // Act
         service.markOnLoan(booking);
@@ -45,7 +50,10 @@ public class BookingServiceTest {
                 BookingStatus.ON_LOAN
         );
 
-        BookingService service = new BookingService(new InMemoryBookingDao());
+        InMemoryBookingDao dao = new InMemoryBookingDao();
+        dao.create(booking);
+
+        BookingService service = new BookingService(dao);
 
         // Act
         service.markReturned(booking);
@@ -96,6 +104,91 @@ public class BookingServiceTest {
                 IllegalStateException.class,
                 () -> service.markOnLoan(booking)
         );
+    }
+
+    @Test
+    void bookingStatusDoesNotChangeWhenPersistenceFails() {
+        // Arrange
+        Booking booking = new Booking(
+                5,
+                1,
+                "Cordless Drill",
+                "Test Member",
+                LocalDate.now(),
+                LocalDate.now().plusDays(3),
+                BookingStatus.APPROVED
+        );
+
+        InMemoryBookingDao dao = new InMemoryBookingDao();
+        BookingService service = new BookingService(dao);
+
+        // Act & Assert
+        assertThrows(
+                IllegalStateException.class,
+                () -> service.markOnLoan(booking)
+        );
+
+        assertEquals(BookingStatus.APPROVED, booking.getStatus());
+    }
+
+    @Test
+    void bookingStatusDoesNotChangeWhenReturnPersistenceFails() {
+        // Arrange
+        Booking booking = new Booking(
+                6,
+                2,
+                "Lawn Mower",
+                "Test Member",
+                LocalDate.now(),
+                LocalDate.now().plusDays(3),
+                BookingStatus.ON_LOAN
+        );
+
+        InMemoryBookingDao dao = new InMemoryBookingDao();
+        BookingService service = new BookingService(dao);
+
+        // Act & Assert
+        assertThrows(
+                IllegalStateException.class,
+                () -> service.markReturned(booking)
+        );
+
+        assertEquals(BookingStatus.ON_LOAN, booking.getStatus());
+    }
+
+    @Test
+    void resourceHistoryOnlyReturnsBookingsForSelectedResource() {
+        InMemoryBookingDao dao = new InMemoryBookingDao();
+        BookingService service = new BookingService(dao);
+
+        Booking drillBooking = new Booking(
+                1,
+                1,
+                "Cordless Drill",
+                "Sam",
+                LocalDate.now(),
+                LocalDate.now().plusDays(2),
+                BookingStatus.RETURNED
+        );
+
+        Booking printerBooking = new Booking(
+                2,
+                2,
+                "3D Printer",
+                "mike",
+                LocalDate.now(),
+                LocalDate.now().plusDays(3),
+                BookingStatus.RETURNED
+        );
+
+        dao.create(drillBooking);
+        dao.create(printerBooking);
+
+        List<Booking> history = service.getResourceHistory(1);
+
+        assertEquals(1, history.size());
+        assertEquals("Cordless Drill", history.get(0).getResourceName());
+        assertEquals("Sam", history.get(0).getBorrowerUsername());
     }
 
 }

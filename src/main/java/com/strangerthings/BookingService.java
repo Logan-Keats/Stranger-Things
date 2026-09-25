@@ -44,6 +44,10 @@ public class BookingService {
         return bookingDao.findAll();
     }
 
+    public List<Booking> getResourceHistory(int resourceId) {
+        return bookingDao.findByResourceId(resourceId);
+    }
+
     public boolean cancelBooking(int bookingId) {
         boolean isRequested = bookingDao.findAll().stream()
                 .anyMatch(booking -> booking.getId() == bookingId && booking.getStatus() == BookingStatus.REQUESTED);
@@ -55,18 +59,44 @@ public class BookingService {
 
     public void markOnLoan(Booking booking) {
         if (booking.getStatus() != BookingStatus.APPROVED) {
-            throw new IllegalStateException("Booking must be approved before it can be marked on loan.");
+            throw new IllegalStateException(
+                    "Booking must be approved before it can be marked on loan."
+            );
         }
+
+        boolean updated = bookingDao.updateStatus(
+                booking.getId(),
+                BookingStatus.ON_LOAN
+        );
+
+        if (!updated) {
+            throw new IllegalStateException(
+                    "Failed to update booking status."
+            );
+        }
+
         booking.setStatus(BookingStatus.ON_LOAN);
-        bookingDao.updateStatus(booking.getId(), booking.getStatus());
     }
 
     public void markReturned(Booking booking) {
         if (booking.getStatus() != BookingStatus.ON_LOAN) {
-            throw new IllegalStateException("Booking must be on loan before it can be returned.");
+            throw new IllegalStateException(
+                    "Booking must be on loan before it can be returned."
+            );
         }
+
+        boolean updated = bookingDao.updateStatus(
+                booking.getId(),
+                BookingStatus.RETURNED
+        );
+
+        if (!updated) {
+            throw new IllegalStateException(
+                    "Failed to update booking status."
+            );
+        }
+
         booking.setStatus(BookingStatus.RETURNED);
-        bookingDao.updateStatus(booking.getId(), booking.getStatus());
     }
 
     public boolean saveStatus(Booking booking) {
