@@ -44,6 +44,10 @@ public class BookingService {
         return bookingDao.findAll();
     }
 
+    public List<Booking> getResourceHistory(int resourceId) {
+        return bookingDao.findByResourceId(resourceId);
+    }
+
     public boolean cancelBooking(int bookingId) {
         boolean isRequested = bookingDao.findAll().stream()
                 .anyMatch(booking -> booking.getId() == bookingId && booking.getStatus() == BookingStatus.REQUESTED);

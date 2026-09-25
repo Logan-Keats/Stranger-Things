@@ -10,5 +10,6 @@ public interface BookingDao {
     boolean create(Booking booking);
     List<Booking> findAll();
     List<Booking> findByBorrower(String username);
+    List<Booking> findByResourceId(int resourceId);
     boolean updateStatus(int bookingId, BookingStatus status);
 }

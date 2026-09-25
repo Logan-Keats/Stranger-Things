@@ -68,6 +68,15 @@ public class SqliteBookingDao implements BookingDao {
     }
 
     @Override
+    public List<Booking> findByResourceId(int resourceId) {
+        return queryByResourceId(
+                "SELECT * FROM bookings WHERE resource_id = ? " +
+                        "ORDER BY created_at DESC, id DESC",
+                resourceId
+        );
+    }
+
+    @Override
     public boolean updateStatus(int bookingId, BookingStatus status) {
         try (Connection connection = SqliteConnection.getInstance();
                 PreparedStatement statement = connection.prepareStatement("UPDATE bookings SET status = ? WHERE id = ?")) {
@@ -107,6 +116,38 @@ public class SqliteBookingDao implements BookingDao {
         } catch (SQLException exception) {
             throw new IllegalStateException("Unable to read bookings.", exception);
         }
+        return bookings;
+    }
+
+    private List<Booking> queryByResourceId(String sql, int resourceId) {
+        List<Booking> bookings = new ArrayList<>();
+
+        try (Connection connection = SqliteConnection.getInstance();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, resourceId);
+
+            try (ResultSet results = statement.executeQuery()) {
+                while (results.next()) {
+                    bookings.add(new Booking(
+                            results.getInt("id"),
+                            results.getInt("resource_id"),
+                            results.getString("resource_name"),
+                            results.getString("borrower_username"),
+                            LocalDate.parse(results.getString("start_date")),
+                            LocalDate.parse(results.getString("end_date")),
+                            BookingStatus.valueOf(results.getString("status"))
+                    ));
+                }
+            }
+
+        } catch (SQLException exception) {
+            throw new IllegalStateException(
+                    "Unable to read resource booking history.",
+                    exception
+            );
+        }
+
         return bookings;
     }
 
