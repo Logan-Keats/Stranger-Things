@@ -17,7 +17,9 @@ import javafx.stage.Stage;
 
 import com.strangerthings.model.Booking;
 import com.strangerthings.controller.BookingDetailController;
-
+import com.strangerthings.model.Resource;
+import com.strangerthings.dao.ResourceDao;
+import com.strangerthings.dao.SqliteResourceDao;
 /**
  * Shared application shell and integration point for Sections 2-6.
  */
@@ -29,12 +31,8 @@ public class MainShellController {
     @FXML private StackPane contentArea;
 
     private Role loggedInRole = Role.MEMBER;
-
-    private String selectedResourceName;
-    private String selectedResourceCategory;
-    private String selectedResourceOwner;
-    private String selectedResourceDescription;
-    private String selectedResourceCollectionMethod;
+    private String loggedInUsername;
+    private Resource selectedResource;
 
     @FXML
     private void initialize() {
@@ -48,6 +46,7 @@ public class MainShellController {
 
     /** Supports the role-aware login hand-off used by the other sections. */
     public void setLoggedInUser(String username, Role role) {
+        loggedInUsername = username;
         loggedInRole = role == null ? Role.MEMBER : role;
         userNameLabel.setText(username);
         updateAdminNavigation();
@@ -137,21 +136,35 @@ public class MainShellController {
     }
 
     private void showAddResource() {
-        loadResourcePage("/com/strangerthings/add-resource.fxml", this::showResources, null);
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    MainShellController.class.getResource(
+                            "/com/strangerthings/add-resource.fxml"
+                    )
+            );
+
+            Parent view = loader.load();
+
+            AddResourceController controller = loader.getController();
+
+            controller.setCancelNavigation(this::showResources);
+            controller.setLoggedInUsername(loggedInUsername);
+
+            contentArea.getChildren().setAll(view);
+
+        } catch (IOException | RuntimeException exception) {
+            exception.printStackTrace();
+            showUnavailablePage("add-resource.fxml");
+        }
     }
 
-    private void showResourceDetails(
-            String name,
-            String category,
-            String owner,
-            String description,
-            String collectionMethod) {
+    private void showResourceDetails(Resource resource) {
 
-        selectedResourceName = name;
-        selectedResourceCategory = category;
-        selectedResourceOwner = owner;
-        selectedResourceDescription = description;
-        selectedResourceCollectionMethod = collectionMethod;
+        if (resource == null) {
+            return;
+        }
+
+        selectedResource = resource;
 
         try {
             FXMLLoader loader = new FXMLLoader(
@@ -164,20 +177,16 @@ public class MainShellController {
 
             ResourceDetailController controller = loader.getController();
 
-            controller.setResource(
-                    name,
-                    category,
-                    owner,
-                    description,
-                    collectionMethod
-            );
+            controller.setResource(resource);
 
             controller.setBackNavigation(this::showResources);
             controller.setEditResourceNavigation(this::showEditResource);
+            controller.setDeleteNavigation(this::showResources);
 
             contentArea.getChildren().setAll(view);
 
         } catch (IOException | RuntimeException exception) {
+            exception.printStackTrace();
             showUnavailablePage("resource-detail.fxml");
         }
     }
@@ -205,17 +214,47 @@ public class MainShellController {
     }
 
     private void showEditResource() {
-        loadResourcePage(
-                "/com/strangerthings/edit-resource.fxml",
-                () -> showResourceDetails(
-                        selectedResourceName,
-                        selectedResourceCategory,
-                        selectedResourceOwner,
-                        selectedResourceDescription,
-                        selectedResourceCollectionMethod
-                ),
-                null
-        );
+
+        if (selectedResource == null) {
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    MainShellController.class.getResource(
+                            "/com/strangerthings/edit-resource.fxml"
+                    )
+            );
+
+            Parent view = loader.load();
+
+            EditResourceController controller = loader.getController();
+
+            controller.setResource(selectedResource);
+
+            controller.setCancelNavigation(
+                    () -> showResourceDetails(selectedResource)
+            );
+
+            controller.setSaveNavigation(() -> {
+                ResourceDao resourceDao = new SqliteResourceDao();
+
+                Resource updatedResource =
+                        resourceDao.findById(selectedResource.getId());
+
+                if (updatedResource != null) {
+                    showResourceDetails(updatedResource);
+                } else {
+                    showResources();
+                }
+            });
+
+            contentArea.getChildren().setAll(view);
+
+        } catch (IOException | RuntimeException exception) {
+            exception.printStackTrace();
+            showUnavailablePage("edit-resource.fxml");
+        }
     }
 
     private void showBookingDetail(Booking booking) {

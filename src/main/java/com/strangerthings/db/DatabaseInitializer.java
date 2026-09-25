@@ -31,13 +31,50 @@ public final class DatabaseInitializer {
                         category TEXT NOT NULL,
                         status TEXT NOT NULL,
                         owner_username TEXT NOT NULL DEFAULT '',
+                        description TEXT NOT NULL DEFAULT '',
+                        collection_method TEXT NOT NULL DEFAULT '',
                         estimated_savings REAL NOT NULL DEFAULT 0,
                         co2_avoided_kg REAL NOT NULL DEFAULT 0
                     )
                     """);
-            ensureColumn(connection, "items", "estimated_savings", "REAL NOT NULL DEFAULT 0");
-            ensureColumn(connection, "items", "co2_avoided_kg", "REAL NOT NULL DEFAULT 0");
-            ensureColumn(connection, "items", "owner_username", "TEXT NOT NULL DEFAULT ''");
+            ensureColumn(connection, "items", "estimated_savings",
+                    "REAL NOT NULL DEFAULT 0");
+
+            ensureColumn(connection, "items", "co2_avoided_kg",
+                    "REAL NOT NULL DEFAULT 0");
+
+            ensureColumn(connection, "items", "owner_username",
+                    "TEXT NOT NULL DEFAULT ''");
+
+            ensureColumn(connection, "items", "description",
+                    "TEXT NOT NULL DEFAULT ''");
+
+            ensureColumn(connection, "items", "collection_method",
+                    "TEXT NOT NULL DEFAULT ''");
+            try (PreparedStatement update = connection.prepareStatement("""
+        UPDATE items
+        SET description = ?, collection_method = ?
+        WHERE name = ? AND (description = '' OR collection_method = '')
+        """)) {
+
+                update.setString(1,
+                        "Cordless power drill suitable for basic household repairs and DIY projects.");
+                update.setString(2, "Pick Up");
+                update.setString(3, "Cordless Drill");
+                update.executeUpdate();
+
+                update.setString(1,
+                        "Electric lawn mower suitable for small to medium-sized lawns.");
+                update.setString(2, "Pick Up");
+                update.setString(3, "Lawn Mower");
+                update.executeUpdate();
+
+                update.setString(1,
+                        "3D printer available for small personal projects and prototype printing.");
+                update.setString(2, "Pick Up");
+                update.setString(3, "3D Printer");
+                update.executeUpdate();
+            }
             statement.execute("""
                     CREATE TABLE IF NOT EXISTS bookings (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -109,10 +146,42 @@ public final class DatabaseInitializer {
             updateBuiltInPassword(connection, "Michael", "michael");
             if (count(connection, "items") == 0) {
                 try (PreparedStatement statement = connection.prepareStatement(
-                        "INSERT INTO items (name, category, status, owner_username, estimated_savings, co2_avoided_kg) VALUES (?, ?, ?, ?, ?, ?)")) {
-                    insertItem(statement, "Cordless Drill", "Tools", "ACTIVE", "David", 45.00, 5.0);
-                    insertItem(statement, "Lawn Mower", "Garden Equipment", "ACTIVE", "Sarah", 32.50, 4.2);
-                    insertItem(statement, "3D Printer", "Electronics", "ACTIVE", "Michael", 55.00, 9.3);
+                        "INSERT INTO items (name, category, status, owner_username, description, collection_method, estimated_savings, co2_avoided_kg) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
+                    insertItem(
+                            statement,
+                            "Cordless Drill",
+                            "Tools",
+                            "ACTIVE",
+                            "David",
+                            "Cordless power drill suitable for basic household repairs and DIY projects.",
+                            "Pick Up",
+                            45.00,
+                            5.0
+                    );
+
+                    insertItem(
+                            statement,
+                            "Lawn Mower",
+                            "Garden Equipment",
+                            "ACTIVE",
+                            "Sarah",
+                            "Electric lawn mower suitable for small to medium-sized lawns.",
+                            "Pick Up",
+                            32.50,
+                            4.2
+                    );
+
+                    insertItem(
+                            statement,
+                            "3D Printer",
+                            "Electronics",
+                            "ACTIVE",
+                            "Michael",
+                            "3D printer available for small personal projects and prototype printing.",
+                            "Pick Up",
+                            55.00,
+                            9.3
+                    );
                 }
             }
             if (count(connection, "bookings") == 0) {
@@ -182,14 +251,26 @@ public final class DatabaseInitializer {
         }
     }
 
-    private static void insertItem(PreparedStatement statement, String name, String category, String status,
-            String owner, double savings, double co2) throws SQLException {
+    private static void insertItem(
+            PreparedStatement statement,
+            String name,
+            String category,
+            String status,
+            String owner,
+            String description,
+            String collectionMethod,
+            double savings,
+            double co2) throws SQLException {
+
         statement.setString(1, name);
         statement.setString(2, category);
         statement.setString(3, status);
         statement.setString(4, owner);
-        statement.setDouble(5, savings);
-        statement.setDouble(6, co2);
+        statement.setString(5, description);
+        statement.setString(6, collectionMethod);
+        statement.setDouble(7, savings);
+        statement.setDouble(8, co2);
+
         statement.executeUpdate();
     }
 

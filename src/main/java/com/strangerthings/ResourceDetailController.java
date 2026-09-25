@@ -1,5 +1,9 @@
 package com.strangerthings;
 
+import com.strangerthings.model.Resource;
+import com.strangerthings.dao.ResourceDao;
+import com.strangerthings.dao.SqliteResourceDao;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -20,21 +24,26 @@ public class ResourceDetailController {
     @FXML
     private Label collectionMethodLabel;
 
+    private Resource resource;
+
     private Runnable backNavigation;
     private Runnable editResourceNavigation;
+    private Runnable deleteNavigation;
 
-    public void setResource(
-            String name,
-            String category,
-            String owner,
-            String description,
-            String collectionMethod) {
+    private final ResourceDao resourceDao = new SqliteResourceDao();
 
-        resourceNameLabel.setText(name);
-        categoryLabel.setText(category);
-        ownerLabel.setText(owner);
-        descriptionLabel.setText(description);
-        collectionMethodLabel.setText(collectionMethod);
+    public void setResource(Resource resource) {
+        this.resource = resource;
+
+        resourceNameLabel.setText(resource.getName());
+        categoryLabel.setText(resource.getCategory());
+        ownerLabel.setText(resource.getOwnerUsername());
+        descriptionLabel.setText(resource.getDescription());
+        collectionMethodLabel.setText(resource.getCollectionMethod());
+    }
+
+    public Resource getResource() {
+        return resource;
     }
 
     public void setBackNavigation(Runnable backNavigation) {
@@ -43,6 +52,10 @@ public class ResourceDetailController {
 
     public void setEditResourceNavigation(Runnable editResourceNavigation) {
         this.editResourceNavigation = editResourceNavigation;
+    }
+
+    public void setDeleteNavigation(Runnable deleteNavigation) {
+        this.deleteNavigation = deleteNavigation;
     }
 
     @FXML
@@ -61,6 +74,14 @@ public class ResourceDetailController {
 
     @FXML
     private void onRemoveResource() {
-        System.out.println("Remove Resource clicked");
+        if (resource == null) {
+            return;
+        }
+
+        boolean deleted = resourceDao.delete(resource.getId());
+
+        if (deleted && deleteNavigation != null) {
+            deleteNavigation.run();
+        }
     }
 }
