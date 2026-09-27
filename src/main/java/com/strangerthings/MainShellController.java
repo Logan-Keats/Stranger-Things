@@ -97,12 +97,7 @@ public class MainShellController {
         }
     }
 
-    @FXML
-    private void onBookingDetail() {
-        showUnavailablePage(
-                "Select a booking from All Bookings to view its details."
-        );
-    }
+
 
     @FXML
     private void onReports() {

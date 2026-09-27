@@ -32,7 +32,7 @@
                 <Button text="Resources" maxWidth="Infinity" onAction="#onResources"/>
                 <Button text="My Bookings" maxWidth="Infinity" onAction="#onMyBookings"/>
                 <Button fx:id="allBookingsButton" text="All Bookings" maxWidth="Infinity" onAction="#onAllBookings"/>
-                <Button text="Booking Detail" maxWidth="Infinity" onAction="#onBookingDetail"/>
+
                 <Button fx:id="reportsButton" text="Reports" maxWidth="Infinity" onAction="#onReports"/>
             </children>
         </VBox>
