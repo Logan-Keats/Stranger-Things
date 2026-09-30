@@ -9,6 +9,8 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BookingServiceTest {
 
@@ -189,6 +191,46 @@ public class BookingServiceTest {
         assertEquals(1, history.size());
         assertEquals("Cordless Drill", history.get(0).getResourceName());
         assertEquals("Sam", history.get(0).getBorrowerUsername());
+    }
+
+    @Test
+    void resourceWithOnLoanBookingIsUnavailable() {
+        InMemoryBookingDao dao = new InMemoryBookingDao();
+        BookingService service = new BookingService(dao);
+
+        Booking booking = new Booking(
+                1,
+                2,
+                "Lawn Mower",
+                "member",
+                LocalDate.now(),
+                LocalDate.now().plusDays(2),
+                BookingStatus.ON_LOAN
+        );
+
+        dao.create(booking);
+
+        assertFalse(service.isResourceAvailable(2));
+    }
+
+    @Test
+    void resourceWithoutOnLoanBookingIsAvailable() {
+        InMemoryBookingDao dao = new InMemoryBookingDao();
+        BookingService service = new BookingService(dao);
+
+        Booking booking = new Booking(
+                1,
+                2,
+                "Lawn Mower",
+                "member",
+                LocalDate.now(),
+                LocalDate.now().plusDays(2),
+                BookingStatus.RETURNED
+        );
+
+        dao.create(booking);
+
+        assertTrue(service.isResourceAvailable(2));
     }
 
 }
