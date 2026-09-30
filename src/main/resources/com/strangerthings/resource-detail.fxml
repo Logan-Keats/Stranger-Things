@@ -46,6 +46,12 @@
             </VBox>
 
             <VBox spacing="5">
+                <Label text="Availability"
+                       style="-fx-font-weight: bold;"/>
+                <Label fx:id="availabilityLabel"/>
+            </VBox>
+
+            <VBox spacing="5">
                 <Label text="Description"
                        style="-fx-font-weight: bold;"/>
                 <Label fx:id="descriptionLabel"

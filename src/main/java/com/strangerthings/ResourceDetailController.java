@@ -24,6 +24,9 @@ public class ResourceDetailController {
     @FXML
     private Label collectionMethodLabel;
 
+    @FXML
+    private Label availabilityLabel;
+
     private Resource resource;
 
     private Runnable backNavigation;
@@ -31,6 +34,8 @@ public class ResourceDetailController {
     private Runnable deleteNavigation;
 
     private final ResourceDao resourceDao = new SqliteResourceDao();
+
+    private final BookingService bookingService = BookingService.getInstance();
 
     public void setResource(Resource resource) {
         this.resource = resource;
@@ -40,6 +45,12 @@ public class ResourceDetailController {
         ownerLabel.setText(resource.getOwnerUsername());
         descriptionLabel.setText(resource.getDescription());
         collectionMethodLabel.setText(resource.getCollectionMethod());
+
+        boolean available = bookingService.isResourceAvailable(resource.getId());
+
+        availabilityLabel.setText(
+                available ? "AVAILABLE" : "UNAVAILABLE - ON LOAN"
+        );
     }
 
     public Resource getResource() {

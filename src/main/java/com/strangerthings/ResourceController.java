@@ -23,6 +23,8 @@ public class ResourceController {
 
     private final ResourceDao resourceDao = new SqliteResourceDao();
 
+    private final BookingService bookingService = BookingService.getInstance();
+
     private Runnable addResourceNavigation;
     private ResourceNavigation resourceDetailsNavigation;
 
@@ -110,11 +112,19 @@ public class ResourceController {
                 resource.getOwnerUsername()
         );
 
+        boolean available = bookingService.isResourceAvailable(resource.getId());
+
+        HBox availabilityRow = createDetailRow(
+                "Availability:",
+                available ? "AVAILABLE" : "UNAVAILABLE - ON LOAN"
+        );
+
         card.getChildren().addAll(
                 imageLabel,
                 nameRow,
                 categoryRow,
-                ownerRow
+                ownerRow,
+                availabilityRow
         );
 
         card.setOnMouseClicked(event -> {
