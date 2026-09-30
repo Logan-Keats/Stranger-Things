@@ -3,6 +3,8 @@ package com.strangerthings;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,15 +30,23 @@ public class MainShellController {
     @FXML private Label userNameLabel;
     @FXML private Button allBookingsButton;
     @FXML private Button reportsButton;
+    @FXML private Button backButton;
+    @FXML private Button forwardButton;
     @FXML private StackPane contentArea;
 
     private Role loggedInRole = Role.MEMBER;
     private String loggedInUsername;
     private Resource selectedResource;
 
+    private final Deque<Runnable> backStack = new ArrayDeque<>();
+    private final Deque<Runnable> forwardStack = new ArrayDeque<>();
+    private Runnable currentLocation;
+    private boolean navigatingHistory;
+
     @FXML
     private void initialize() {
         updateAdminNavigation();
+        updateHistoryButtons();
     }
 
     /** Retains compatibility with the current login flow. */
@@ -50,7 +60,10 @@ public class MainShellController {
         loggedInRole = role == null ? Role.MEMBER : role;
         userNameLabel.setText(username);
         updateAdminNavigation();
-        showHome();
+        backStack.clear();
+        forwardStack.clear();
+        currentLocation = null;
+        goTo(this::renderHome);
     }
 
     /** Supports callers that already have an authenticated User instance. */
@@ -73,42 +86,47 @@ public class MainShellController {
     @FXML
     private void onMyBookings()
     {
-        loadPage("/com/strangerthings/booking-view.fxml");
+        goTo(() -> loadPageContent("/com/strangerthings/booking-view.fxml"));
     }
 
     @FXML
     private void onAllBookings() {
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                    MainShellController.class.getResource(
-                            "/com/strangerthings/approve.fxml"
-                    )
-            );
-
-            Parent view = loader.load();
-
-            ApproveController controller = loader.getController();
-            controller.setBookingDetailNavigation(this::showBookingDetail);
-
-            contentArea.getChildren().setAll(view);
-
-        } catch (IOException | RuntimeException exception) {
-            showUnavailablePage("approve.fxml");
-        }
+        goTo(this::renderAllBookings);
     }
 
-    @FXML
-    private void onBookingDetail() {
-        showUnavailablePage(
-                "Select a booking from All Bookings to view its details."
-        );
-    }
+
 
     @FXML
     private void onReports() {
         if (loggedInRole == Role.ADMIN) {
-            loadPage("/com/strangerthings/reports.fxml");
+            goTo(() -> loadPageContent("/com/strangerthings/reports.fxml"));
         }
+    }
+
+    @FXML
+    private void onNavigateBack() {
+        if (backStack.isEmpty() || currentLocation == null) {
+            return;
+        }
+        navigatingHistory = true;
+        forwardStack.push(currentLocation);
+        currentLocation = backStack.pop();
+        currentLocation.run();
+        navigatingHistory = false;
+        updateHistoryButtons();
+    }
+
+    @FXML
+    private void onNavigateForward() {
+        if (forwardStack.isEmpty() || currentLocation == null) {
+            return;
+        }
+        navigatingHistory = true;
+        backStack.push(currentLocation);
+        currentLocation = forwardStack.pop();
+        currentLocation.run();
+        navigatingHistory = false;
+        updateHistoryButtons();
     }
 
     @FXML
@@ -123,7 +141,35 @@ public class MainShellController {
         }
     }
 
+    private void goTo(Runnable location) {
+        if (location == null) {
+            return;
+        }
+        if (!navigatingHistory && currentLocation != null) {
+            backStack.push(currentLocation);
+            forwardStack.clear();
+        }
+        currentLocation = location;
+        location.run();
+        updateHistoryButtons();
+    }
+
+    private void updateHistoryButtons() {
+        boolean canGoBack = !backStack.isEmpty();
+        boolean canGoForward = !forwardStack.isEmpty();
+        if (backButton != null) {
+            backButton.setDisable(!canGoBack);
+        }
+        if (forwardButton != null) {
+            forwardButton.setDisable(!canGoForward);
+        }
+    }
+
     private void showHome() {
+        goTo(this::renderHome);
+    }
+
+    private void renderHome() {
         try {
             FXMLLoader loader = new FXMLLoader(
                     MainShellController.class.getResource("/com/strangerthings/home.fxml"));
@@ -136,6 +182,10 @@ public class MainShellController {
     }
 
     private void showAddResource() {
+        goTo(this::renderAddResource);
+    }
+
+    private void renderAddResource() {
         try {
             FXMLLoader loader = new FXMLLoader(
                     MainShellController.class.getResource(
@@ -165,7 +215,10 @@ public class MainShellController {
         }
 
         selectedResource = resource;
+        goTo(() -> renderResourceDetails(resource));
+    }
 
+    private void renderResourceDetails(Resource resource) {
         try {
             FXMLLoader loader = new FXMLLoader(
                     MainShellController.class.getResource(
@@ -192,6 +245,10 @@ public class MainShellController {
     }
 
     private void showResources() {
+        goTo(this::renderResources);
+    }
+
+    private void renderResources() {
         try {
             FXMLLoader loader = new FXMLLoader(
                     MainShellController.class.getResource(
@@ -219,6 +276,11 @@ public class MainShellController {
             return;
         }
 
+        Resource editing = selectedResource;
+        goTo(() -> renderEditResource(editing));
+    }
+
+    private void renderEditResource(Resource editing) {
         try {
             FXMLLoader loader = new FXMLLoader(
                     MainShellController.class.getResource(
@@ -230,17 +292,17 @@ public class MainShellController {
 
             EditResourceController controller = loader.getController();
 
-            controller.setResource(selectedResource);
+            controller.setResource(editing);
 
             controller.setCancelNavigation(
-                    () -> showResourceDetails(selectedResource)
+                    () -> showResourceDetails(editing)
             );
 
             controller.setSaveNavigation(() -> {
                 ResourceDao resourceDao = new SqliteResourceDao();
 
                 Resource updatedResource =
-                        resourceDao.findById(selectedResource.getId());
+                        resourceDao.findById(editing.getId());
 
                 if (updatedResource != null) {
                     showResourceDetails(updatedResource);
@@ -262,6 +324,10 @@ public class MainShellController {
             return;
         }
 
+        goTo(() -> renderBookingDetail(booking));
+    }
+
+    private void renderBookingDetail(Booking booking) {
         try {
             FXMLLoader loader = new FXMLLoader(
                     MainShellController.class.getResource(
@@ -278,6 +344,26 @@ public class MainShellController {
 
         } catch (IOException | RuntimeException exception) {
             showUnavailablePage("booking-detail.fxml");
+        }
+    }
+
+    private void renderAllBookings() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    MainShellController.class.getResource(
+                            "/com/strangerthings/approve.fxml"
+                    )
+            );
+
+            Parent view = loader.load();
+
+            ApproveController controller = loader.getController();
+            controller.setBookingDetailNavigation(this::showBookingDetail);
+
+            contentArea.getChildren().setAll(view);
+
+        } catch (IOException | RuntimeException exception) {
+            showUnavailablePage("approve.fxml");
         }
     }
 
@@ -315,7 +401,7 @@ public class MainShellController {
     }
 
 
-    private void loadPage(String resourcePath) {
+    private void loadPageContent(String resourcePath) {
         try {
             Parent view = FXMLLoader.load(MainShellController.class.getResource(resourcePath));
             contentArea.getChildren().setAll(view);
