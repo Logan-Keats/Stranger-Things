@@ -102,4 +102,11 @@ public class BookingService {
     public boolean saveStatus(Booking booking) {
         return booking != null && bookingDao.updateStatus(booking.getId(), booking.getStatus());
     }
+
+    public boolean isResourceAvailable(int resourceId) {
+        return bookingDao.findByResourceId(resourceId).stream()
+                .noneMatch(booking ->
+                        booking.getStatus() == BookingStatus.ON_LOAN);
+    }
+
 }
