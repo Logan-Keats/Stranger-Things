@@ -1,4 +1,4 @@
-package com.strangerthings;
+package com.strangerthings.controller;
 
 import java.io.File;
 import java.io.IOException;

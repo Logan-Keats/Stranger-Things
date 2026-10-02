@@ -1,5 +1,6 @@
 package com.strangerthings;
 
+import com.strangerthings.service.ResourceService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

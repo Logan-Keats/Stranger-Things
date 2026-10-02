@@ -1,7 +1,8 @@
-package com.strangerthings;
+package com.strangerthings.controller;
 
 import java.util.List;
 
+import com.strangerthings.service.BookingService;
 import com.strangerthings.dao.ResourceDao;
 import com.strangerthings.dao.SqliteResourceDao;
 import com.strangerthings.model.Resource;

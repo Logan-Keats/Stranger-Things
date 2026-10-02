@@ -1,7 +1,7 @@
 package com.strangerthings.controller;
 
-import com.strangerthings.BookingService;
-import com.strangerthings.UserSession;
+import com.strangerthings.service.BookingService;
+import com.strangerthings.service.UserSession;
 import com.strangerthings.model.Booking;
 import com.strangerthings.model.BookingStatus;
 
