@@ -1,7 +1,10 @@
-package com.strangerthings;
+package com.strangerthings.controller;
 
 import java.io.IOException;
 
+import com.strangerthings.service.AuthService;
+import com.strangerthings.model.User;
+import com.strangerthings.service.UserSession;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

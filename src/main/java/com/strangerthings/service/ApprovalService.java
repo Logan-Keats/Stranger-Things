@@ -1,4 +1,4 @@
-package com.strangerthings;
+package com.strangerthings.service;
 
 import com.strangerthings.model.Booking;
 import com.strangerthings.model.BookingStatus;

@@ -1,4 +1,6 @@
-package com.strangerthings;
+package com.strangerthings.model;
+
+import com.strangerthings.service.AuthService;
 
 /**
  * Authenticated user returned by {@link AuthService#login}.

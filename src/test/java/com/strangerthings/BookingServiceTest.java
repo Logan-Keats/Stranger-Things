@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.strangerthings.model.Booking;
 import com.strangerthings.model.BookingStatus;
+import com.strangerthings.service.BookingService;
 import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 

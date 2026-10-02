@@ -2,6 +2,7 @@ package com.strangerthings;
 
 import com.strangerthings.model.Booking;
 import com.strangerthings.model.BookingStatus;
+import com.strangerthings.service.ApprovalService;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;

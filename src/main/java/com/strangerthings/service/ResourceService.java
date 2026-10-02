@@ -1,4 +1,4 @@
-package com.strangerthings;
+package com.strangerthings.service;
 
 public class ResourceService {
 

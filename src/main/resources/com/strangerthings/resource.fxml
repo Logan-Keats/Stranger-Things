@@ -10,7 +10,7 @@
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.strangerthings.ResourceController"
+      fx:controller="com.strangerthings.controller.ResourceController"
       prefHeight="400.0"
       prefWidth="600.0"
       spacing="10">
