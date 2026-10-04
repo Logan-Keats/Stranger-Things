@@ -1,5 +1,7 @@
-package com.strangerthings;
+package com.strangerthings.service;
 
+import com.strangerthings.model.Role;
+import com.strangerthings.model.User;
 import com.strangerthings.dao.UserDao;
 import com.strangerthings.dao.UserDao.UserRecord;
 

@@ -1,9 +1,11 @@
-package com.strangerthings;
+package com.strangerthings.controller;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.function.Consumer;
 
+import com.strangerthings.service.ApprovalService;
+import com.strangerthings.service.BookingService;
 import com.strangerthings.model.Booking;
 import com.strangerthings.model.BookingStatus;
 

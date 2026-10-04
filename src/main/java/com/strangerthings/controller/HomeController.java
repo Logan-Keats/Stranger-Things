@@ -1,8 +1,9 @@
-package com.strangerthings;
+package com.strangerthings.controller;
 
 import java.util.Locale;
 import java.util.Map;
 
+import com.strangerthings.service.UserSession;
 import com.strangerthings.service.ReportService;
 
 import javafx.collections.FXCollections;
@@ -50,7 +51,7 @@ public class HomeController {
         setAdminView(false);
     }
 
-    void setAdminView(boolean isAdmin) {
+    public void setAdminView(boolean isAdmin) {
         setDashboardVisible(memberDashboard, !isAdmin);
         setDashboardVisible(adminDashboard, isAdmin);
         pageTitleLabel.setText(isAdmin ? "Home" : "Home Dashboard");

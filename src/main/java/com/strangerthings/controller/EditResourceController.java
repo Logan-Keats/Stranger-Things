@@ -1,5 +1,6 @@
-package com.strangerthings;
+package com.strangerthings.controller;
 
+import com.strangerthings.service.ResourceService;
 import com.strangerthings.dao.ResourceDao;
 import com.strangerthings.dao.SqliteResourceDao;
 import com.strangerthings.model.Resource;

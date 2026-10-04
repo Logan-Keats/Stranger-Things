@@ -1,4 +1,4 @@
-package com.strangerthings;
+package com.strangerthings.controller;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -6,6 +6,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+import com.strangerthings.model.Role;
+import com.strangerthings.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +20,6 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import com.strangerthings.model.Booking;
-import com.strangerthings.controller.BookingDetailController;
 import com.strangerthings.model.Resource;
 import com.strangerthings.dao.ResourceDao;
 import com.strangerthings.dao.SqliteResourceDao;

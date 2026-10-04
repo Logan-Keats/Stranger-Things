@@ -1,4 +1,4 @@
-package com.strangerthings;
+package com.strangerthings.service;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,7 +17,7 @@ public class BookingService {
         this(new SqliteBookingDao());
     }
 
-    BookingService(BookingDao bookingDao) {
+    public BookingService(BookingDao bookingDao) {
         this.bookingDao = bookingDao;
     }
 

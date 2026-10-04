@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <ScrollPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.strangerthings.ReportsController" fitToWidth="true"
+            fx:controller="com.strangerthings.controller.ReportsController" fitToWidth="true"
             style="-fx-background-color: #f3eee5;">
     <content>
         <VBox spacing="28.0" style="-fx-background-color: #f3eee5;">

@@ -2,6 +2,7 @@ package com.strangerthings;
 
 import com.strangerthings.model.Booking;
 
+import com.strangerthings.service.BookingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

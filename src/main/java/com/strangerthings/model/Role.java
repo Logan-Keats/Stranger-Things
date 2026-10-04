@@ -1,4 +1,4 @@
-package com.strangerthings;
+package com.strangerthings.model;
 
 /**
  * Application roles used after login (US-1.4 later; set on login now).

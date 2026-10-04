@@ -11,7 +11,7 @@
 
 <BorderPane xmlns= "http://javafx.com/javafx"
             xmlns:fx= "http://javafx.com/fxml"
-            fx:controller= "com.strangerthings.ApproveController"
+            fx:controller= "com.strangerthings.controller.ApproveController"
             prefWidth= "900.0"
             prefHeight= "600.0">
 
