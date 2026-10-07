@@ -24,6 +24,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -62,7 +64,8 @@ class FxmlLoadTest {
                 Button reportsButton = (Button) root.lookup("#reportsButton");
                 Button allBookingsButton = (Button) root.lookup("#allBookingsButton");
                 Label userNameLabel = (Label) root.lookup("#userNameLabel");
-                StackPane contentArea = (StackPane) root.lookup("#contentArea");
+                ScrollPane contentScrollPane = (ScrollPane) ((BorderPane) root).getCenter();
+                StackPane contentArea = (StackPane) contentScrollPane.getContent();
 
                 controller.setLoggedInUser("admin");
                 Stage stage = new Stage();
