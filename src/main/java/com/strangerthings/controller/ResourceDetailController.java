@@ -32,6 +32,7 @@ public class ResourceDetailController {
 
     private Runnable backNavigation;
     private Runnable editResourceNavigation;
+    private Runnable bookingNavigation;
     private Runnable deleteNavigation;
 
     private final ResourceDao resourceDao = new SqliteResourceDao();
@@ -66,6 +67,10 @@ public class ResourceDetailController {
         this.editResourceNavigation = editResourceNavigation;
     }
 
+    public void setBookingNavigation(Runnable bookingNavigation) {
+        this.bookingNavigation = bookingNavigation;
+    }
+
     public void setDeleteNavigation(Runnable deleteNavigation) {
         this.deleteNavigation = deleteNavigation;
     }
@@ -81,6 +86,13 @@ public class ResourceDetailController {
     private void onEditResource() {
         if (editResourceNavigation != null) {
             editResourceNavigation.run();
+        }
+    }
+
+    @FXML
+    private void onRequestBooking() {
+        if (bookingNavigation != null) {
+            bookingNavigation.run();
         }
     }
 
