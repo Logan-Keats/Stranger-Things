@@ -236,12 +236,46 @@ public class MainShellController {
             controller.setBackNavigation(this::showResources);
             controller.setEditResourceNavigation(this::showEditResource);
             controller.setDeleteNavigation(this::showResources);
+            controller.setBookingNavigation(() -> showAddBooking(resource));
 
             contentArea.getChildren().setAll(view);
 
         } catch (IOException | RuntimeException exception) {
             exception.printStackTrace();
             showUnavailablePage("resource-detail.fxml");
+        }
+    }
+
+    private void showAddBooking(Resource resource) {
+        if (resource == null) {
+            return;
+        }
+
+        goTo(() -> renderAddBooking(resource));
+    }
+
+    private void renderAddBooking(Resource resource) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    MainShellController.class.getResource(
+                            "/com/strangerthings/booking-add.fxml"
+                    )
+            );
+
+            Parent view = loader.load();
+
+            BookingAddController controller = loader.getController();
+
+            controller.setResource(resource);
+            controller.setCancelNavigation(
+                    () -> showResourceDetails(resource)
+            );
+
+            contentArea.getChildren().setAll(view);
+
+        } catch (IOException | RuntimeException exception) {
+            exception.printStackTrace();
+            showUnavailablePage("booking-add.fxml");
         }
     }
 
