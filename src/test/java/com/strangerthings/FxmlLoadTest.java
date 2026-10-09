@@ -27,6 +27,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 class FxmlLoadTest {
@@ -77,8 +78,7 @@ class FxmlLoadTest {
                     assertTrue(allBookingsButton.isVisible());
                     assertTrue(userNameLabel.getText().contains("admin"));
                     assertFalse(contentArea.getChildren().isEmpty());
-                    assertEquals("javafx.scene.control.ScrollPane",
-                            contentArea.getChildren().getFirst().getClass().getName());
+                    assertTrue(contentArea.getChildren().getFirst() instanceof VBox);
                     Node homeView = contentArea.getChildren().getFirst();
 
                     reportsButton.fire();
