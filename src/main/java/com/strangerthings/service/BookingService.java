@@ -40,6 +40,15 @@ public class BookingService {
         return bookingDao.findByBorrower(username);
     }
 
+    /** Returns bookings that still need action or are currently on loan. */
+    public List<Booking> getActiveUserBookings(String username) {
+        return getUserBookings(username).stream()
+                .filter(booking -> booking.getStatus() == BookingStatus.REQUESTED
+                        || booking.getStatus() == BookingStatus.APPROVED
+                        || booking.getStatus() == BookingStatus.ON_LOAN)
+                .toList();
+    }
+
     public List<Booking> getAllBookings() {
         return bookingDao.findAll();
     }
