@@ -58,36 +58,36 @@ public class BookingService {
     }
 
     public void markOnLoan(Booking booking) {
-        if (booking.getStatus() != BookingStatus.APPROVED) {
-            throw new IllegalStateException(
-                    "Booking must be approved before it can be marked on loan."
-            );
-        }
-
-        boolean updated = bookingDao.updateStatus(
-                booking.getId(),
-                BookingStatus.ON_LOAN
+        transitionStatus(
+                booking,
+                BookingStatus.APPROVED,
+                BookingStatus.ON_LOAN,
+                "Booking must be approved before it can be marked on loan."
         );
-
-        if (!updated) {
-            throw new IllegalStateException(
-                    "Failed to update booking status."
-            );
-        }
-
-        booking.setStatus(BookingStatus.ON_LOAN);
     }
 
     public void markReturned(Booking booking) {
-        if (booking.getStatus() != BookingStatus.ON_LOAN) {
-            throw new IllegalStateException(
-                    "Booking must be on loan before it can be returned."
-            );
+        transitionStatus(
+                booking,
+                BookingStatus.ON_LOAN,
+                BookingStatus.RETURNED,
+                "Booking must be on loan before it can be returned."
+        );
+    }
+
+    private void transitionStatus(
+            Booking booking,
+            BookingStatus requiredStatus,
+            BookingStatus newStatus,
+            String invalidTransitionMessage) {
+
+        if (booking.getStatus() != requiredStatus) {
+            throw new IllegalStateException(invalidTransitionMessage);
         }
 
         boolean updated = bookingDao.updateStatus(
                 booking.getId(),
-                BookingStatus.RETURNED
+                newStatus
         );
 
         if (!updated) {
@@ -96,7 +96,7 @@ public class BookingService {
             );
         }
 
-        booking.setStatus(BookingStatus.RETURNED);
+        booking.setStatus(newStatus);
     }
 
     public boolean saveStatus(Booking booking) {
