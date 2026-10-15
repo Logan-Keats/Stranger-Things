@@ -62,10 +62,6 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
                 <configuration>
-                    <!--
-
-            AHHH
-                    -->
                     <release>${maven.compiler.release}</release>
                 </configuration>
             </plugin>
