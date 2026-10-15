@@ -20,7 +20,6 @@
     <children>
         <HBox alignment="CENTER_LEFT" spacing="20.0">
             <Label text="My Bookings" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
-            <Button text="+ New Request" onAction="#onOpenAddDialog" style="-fx-background-color: #2b5797; -fx-text-fill: white;"/>
             <Button text="Refresh" onAction="#onRefresh"/>
         </HBox>
         <TableView fx:id="bookingTable" VBox.vgrow="ALWAYS">

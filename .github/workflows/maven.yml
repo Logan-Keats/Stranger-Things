@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: read
+  checks: write
 
 jobs:
   build-and-test:
@@ -25,13 +26,30 @@ jobs:
           java-version: '21'
           cache: maven
 
-      - name: Build and test
+      - name: Build, package, and test
         run: xvfb-run -a mvn --batch-mode --no-transfer-progress verify
 
-      - name: Upload test reports on failure
-        if: failure()
+      - name: Upload executable JAR
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stranger-things-executable-jar
+          path: target/stranger-things-1.0-SNAPSHOT-executable.jar
+          if-no-files-found: error
+
+      - name: Upload Surefire test reports
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: surefire-reports
           path: target/surefire-reports
           if-no-files-found: ignore
+
+      - name: Publish test summary
+        if: always()
+        uses: dorny/test-reporter@v1
+        with:
+          name: Maven test results
+          path: target/surefire-reports/TEST-*.xml
+          reporter: java-junit
+          fail-on-error: false

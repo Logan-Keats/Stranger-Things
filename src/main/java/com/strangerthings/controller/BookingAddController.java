@@ -1,5 +1,6 @@
 package com.strangerthings.controller;
 
+import com.strangerthings.model.Resource;
 import com.strangerthings.service.BookingService;
 import com.strangerthings.service.UserSession;
 
@@ -26,6 +27,8 @@ public class BookingAddController
 
     private final BookingService bookingService = BookingService.getInstance();
     private BookingViewController parentController;
+    private Resource resource;
+    private Runnable cancelNavigation;
 
     public void setParentController(BookingViewController parentController)
     {
@@ -45,7 +48,7 @@ public class BookingAddController
             return;
         }
 
-        boolean success = bookingService.requestBooking(1, resourceName, activeUser, startDate, endDate);
+        boolean success = bookingService.requestBooking(resource.getId(), resource.getName(), activeUser, startDate, endDate);
 
         if (success)
         {
@@ -53,7 +56,9 @@ public class BookingAddController
             {
                 parentController.loadBookings();
             }
-            closeWindow();
+            if (cancelNavigation != null) {
+                cancelNavigation.run();
+            }
         }
         else
         {
@@ -62,14 +67,28 @@ public class BookingAddController
     }
 
     @FXML
-    private void onCancel()
-    {
-        closeWindow();
+    private void onCancel() {
+        if (cancelNavigation != null) {
+            cancelNavigation.run();
+        }
     }
 
     private void closeWindow()
     {
         Stage stage = (Stage) resourceNameField.getScene().getWindow();
         stage.close();
+    }
+
+    public void setResource(Resource resource) {
+        this.resource = resource;
+
+        if (resource != null) {
+            resourceNameField.setText(resource.getName());
+            resourceNameField.setEditable(false);
+        }
+    }
+
+    public void setCancelNavigation(Runnable cancelNavigation) {
+        this.cancelNavigation = cancelNavigation;
     }
 }

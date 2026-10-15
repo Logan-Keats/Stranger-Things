@@ -94,6 +94,10 @@
         <Button text="Edit Resource"
                 onAction="#onEditResource"/>
 
+        <Button text="Request Booking"
+                onAction="#onRequestBooking"
+                style="-fx-background-color: #2b5797; -fx-text-fill: white;"/>
+
         <Button text="Remove Resource"
                 onAction="#onRemoveResource"/>
 
