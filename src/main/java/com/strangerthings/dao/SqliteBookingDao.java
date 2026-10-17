@@ -29,7 +29,7 @@ public class SqliteBookingDao implements BookingDao {
         String sql = "INSERT INTO bookings (resource_id, resource_name, borrower_username, start_date, end_date, status) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection connection = SqliteConnection.getInstance();
                 PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ResourceRecord resource = findResource(connection, booking.getResourceName());
+            ResourceRecord resource = findResource(connection, booking.getResourceId());
             if (resource == null) {
                 return false;
             }
@@ -151,12 +151,21 @@ public class SqliteBookingDao implements BookingDao {
         return bookings;
     }
 
-    private ResourceRecord findResource(Connection connection, String name) throws SQLException {
-        String sql = "SELECT id, name FROM items WHERE LOWER(name) = LOWER(?)";
+    private ResourceRecord findResource(Connection connection, int resourceId)
+            throws SQLException {
+
+        String sql = "SELECT id, name FROM items WHERE id = ?";
+
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, name);
+            statement.setInt(1, resourceId);
+
             try (ResultSet results = statement.executeQuery()) {
-                return results.next() ? new ResourceRecord(results.getInt("id"), results.getString("name")) : null;
+                return results.next()
+                        ? new ResourceRecord(
+                        results.getInt("id"),
+                        results.getString("name")
+                )
+                        : null;
             }
         }
     }

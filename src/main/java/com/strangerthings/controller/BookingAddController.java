@@ -62,7 +62,7 @@ public class BookingAddController
         }
         else
         {
-            errorLabel.setText("Invalid Booking: Please Check Date and Name of Item!");
+            errorLabel.setText("Booking unavailable. This resource may already be booked for the selected dates. Please choose different dates.");
         }
     }
 

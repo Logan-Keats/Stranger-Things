@@ -28,12 +28,44 @@ public class BookingService {
         return instance;
     }
 
-    public boolean requestBooking(int resourceId, String resourceName, String username, LocalDate startDate, LocalDate endDate) {
-        if (startDate == null || endDate == null || endDate.isBefore(startDate)
-                || username == null || username.isBlank() || resourceName == null || resourceName.isBlank()) {
+    public boolean requestBooking(int resourceId, String resourceName, String username,
+                                  LocalDate startDate, LocalDate endDate) {
+
+        // Validate booking details
+        if (resourceId <= 0 || startDate == null || endDate == null
+                || endDate.isBefore(startDate)
+                || username == null || username.isBlank()
+                || resourceName == null || resourceName.isBlank()) {
             return false;
         }
-        return bookingDao.create(new Booking(resourceId, resourceName, username, startDate, endDate));
+
+        // Check existing bookings for this resource
+        List<Booking> existingBookings = bookingDao.findByResourceId(resourceId);
+
+        for (Booking existing : existingBookings) {
+
+            // Only active bookings block new requests
+            BookingStatus status = existing.getStatus();
+
+            if (status == BookingStatus.REQUESTED
+                    || status == BookingStatus.APPROVED
+                    || status == BookingStatus.ON_LOAN) {
+
+                // Check whether the dates overlap
+                boolean overlaps =
+                        !startDate.isAfter(existing.getEndDate())
+                                && !endDate.isBefore(existing.getStartDate());
+
+                if (overlaps) {
+                    return false;
+                }
+            }
+        }
+
+        // No overlapping bookings found
+        return bookingDao.create(
+                new Booking(resourceId, resourceName, username, startDate, endDate)
+        );
     }
 
     public List<Booking> getUserBookings(String username) {
