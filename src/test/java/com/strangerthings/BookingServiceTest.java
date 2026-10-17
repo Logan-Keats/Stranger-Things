@@ -234,4 +234,26 @@ public class BookingServiceTest {
         assertTrue(service.isResourceAvailable(2));
     }
 
+    @Test
+    void activeBookingsExcludeCompletedAndCancelledBookings() {
+        InMemoryBookingDao dao = new InMemoryBookingDao();
+        BookingService service = new BookingService(dao);
+
+        dao.create(new Booking(1, 1, "Cordless Drill", "Sam", LocalDate.now(),
+                LocalDate.now().plusDays(1), BookingStatus.REQUESTED));
+        dao.create(new Booking(2, 2, "Lawn Mower", "Sam", LocalDate.now(),
+                LocalDate.now().plusDays(1), BookingStatus.ON_LOAN));
+        dao.create(new Booking(3, 3, "3D Printer", "Sam", LocalDate.now(),
+                LocalDate.now().plusDays(1), BookingStatus.RETURNED));
+        dao.create(new Booking(4, 4, "Pressure Washer", "Sam", LocalDate.now(),
+                LocalDate.now().plusDays(1), BookingStatus.CANCELLED));
+
+        List<Booking> activeBookings = service.getActiveUserBookings("Sam");
+
+        assertEquals(2, activeBookings.size());
+        assertTrue(activeBookings.stream().allMatch(booking -> booking.getStatus() == BookingStatus.REQUESTED
+                || booking.getStatus() == BookingStatus.APPROVED
+                || booking.getStatus() == BookingStatus.ON_LOAN));
+    }
+
 }

@@ -17,8 +17,8 @@
             <children>
                 <VBox spacing="4.0">
                     <children>
-                        <Label fx:id="pageTitleLabel" text="Home Dashboard" style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #153d12;"/>
-                        <Label fx:id="pageSubtitleLabel" text="Community sharing overview" style="-fx-font-size: 13px; -fx-text-fill: #63705d;"/>
+                        <Label fx:id="pageTitleLabel" text="Equipment Library Dashboard" style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #153d12;"/>
+                        <Label fx:id="pageSubtitleLabel" text="Manage your equipment, bookings, and community sharing in one place." style="-fx-font-size: 13px; -fx-text-fill: #63705d;"/>
                     </children>
                 </VBox>
                 <VBox fx:id="memberDashboard" spacing="16.0">
@@ -31,9 +31,20 @@
                                 <VBox spacing="6.0" HBox.hgrow="ALWAYS" style="-fx-background-color: #fffdf7; -fx-border-color: #ded7c8; -fx-border-radius: 6; -fx-background-radius: 6;"><padding><Insets top="14.0" right="16.0" bottom="14.0" left="16.0"/></padding><children><Label text="Money saved" style="-fx-text-fill: #63705d;"/><Label fx:id="moneySavedLabel" text="0.00" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #153d12;"/></children></VBox>
                             </children>
                         </HBox>
+                        <VBox spacing="10.0" style="-fx-background-color: #fffdf7; -fx-border-color: #ded7c8; -fx-border-radius: 6; -fx-background-radius: 6;">
+                            <padding><Insets top="16.0" right="18.0" bottom="18.0" left="18.0"/></padding>
+                            <children>
+                                <Label text="Your Active Bookings" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #263423;"/>
+                                <ListView fx:id="activeBookingsList" prefHeight="160.0">
+                                    <placeholder>
+                                        <Label text="You have no active bookings." style="-fx-text-fill: #63705d;"/>
+                                    </placeholder>
+                                </ListView>
+                            </children>
+                        </VBox>
                         <HBox spacing="16.0">
                             <children>
-                                <VBox spacing="10.0" HBox.hgrow="ALWAYS" style="-fx-background-color: #fffdf7; -fx-border-color: #ded7c8; -fx-border-radius: 6; -fx-background-radius: 6;"><padding><Insets top="16.0" right="18.0" bottom="18.0" left="18.0"/></padding><children><Label text="Community catalogue" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #263423;"/><PieChart fx:id="memberCategoryPieChart" prefHeight="260.0" legendVisible="true"/></children></VBox>
+                                <VBox spacing="10.0" HBox.hgrow="ALWAYS" style="-fx-background-color: #fffdf7; -fx-border-color: #ded7c8; -fx-border-radius: 6; -fx-background-radius: 6;"><padding><Insets top="16.0" right="18.0" bottom="18.0" left="18.0"/></padding><children><Label text="Resource Categories" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #263423;"/><PieChart fx:id="memberCategoryPieChart" prefHeight="260.0" legendVisible="true"/></children></VBox>
                                 <VBox spacing="10.0" HBox.hgrow="ALWAYS" style="-fx-background-color: #fffdf7; -fx-border-color: #ded7c8; -fx-border-radius: 6; -fx-background-radius: 6;"><padding><Insets top="16.0" right="18.0" bottom="18.0" left="18.0"/></padding><children><Label text="Recent activity" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #263423;"/><ListView fx:id="recentActivityList" prefHeight="260.0"/></children></VBox>
                             </children>
                         </HBox>
