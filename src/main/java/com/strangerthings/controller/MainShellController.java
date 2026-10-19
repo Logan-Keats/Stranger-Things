@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+import com.strangerthings.Main;
 import com.strangerthings.model.Role;
 import com.strangerthings.model.User;
 import javafx.event.ActionEvent;
@@ -87,7 +88,25 @@ public class MainShellController {
     @FXML
     private void onMyBookings()
     {
-        goTo(() -> loadPageContent("/com/strangerthings/booking-view.fxml"));
+        goTo(this::renderMyBookings);
+    }
+
+    private void renderMyBookings()
+    {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader(MainShellController.class.getResource("/com/strangerthings/booking-view.fxml"));
+            Parent view = loader.load();
+
+            BookingViewController controller = loader.getController();
+            controller.setBookingDetailNavigation(this::showBookingDetail);
+
+            contentArea.getChildren().setAll(view);
+        }
+        catch (IOException | RuntimeException exception)
+        {
+            showUnavailablePage("booking-view.fxml");
+        }
     }
 
     @FXML

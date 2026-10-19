@@ -32,6 +32,7 @@
             </columns>
         </TableView>
         <HBox spacing="10.0" alignment="CENTER_RIGHT">
+                <Button text="View Details" onAction="#onViewDetails"/>
                 <Button text="Cancel Selected Request" onAction="#onCancelSelected" style="-fx-background-color: #d9534f; -fx-text-fill: white;"/>
         </HBox>
     </children>
