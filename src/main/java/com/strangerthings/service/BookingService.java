@@ -72,7 +72,12 @@ public class BookingService {
         return bookingDao.findByBorrower(username);
     }
 
-    /** Returns bookings that still need action or are currently on loan. */
+    /**
+     * Returns a user's bookings that still need action or are currently on loan.
+     *
+     * @param username the username whose bookings are requested
+     * @return requested, approved, and on-loan bookings for the user
+     */
     public List<Booking> getActiveUserBookings(String username) {
         return getUserBookings(username).stream()
                 .filter(booking -> booking.getStatus() == BookingStatus.REQUESTED
