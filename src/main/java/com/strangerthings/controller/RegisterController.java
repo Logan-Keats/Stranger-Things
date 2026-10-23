@@ -5,11 +5,13 @@ import java.io.IOException;
 import com.strangerthings.service.AuthService;
 import com.strangerthings.model.Role;
 import javafx.event.ActionEvent;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -19,10 +21,31 @@ import javafx.stage.Stage;
 public class RegisterController {
     private final AuthService authService = new AuthService();
 
+    @FXML private Button registerButton;
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
     @FXML private PasswordField confirmPasswordField;
     @FXML private Label errorLabel;
+
+    private boolean initialFocusHandled = false;
+
+    /** Prevents Autofocus on Username Field */
+    @FXML
+    public void initialize() {
+        // Intercept the automatic startup focus exactly once to correct display placeholder text
+        if (usernameField != null) {
+            usernameField.focusedProperty().addListener((obs, oldVal, newVal) -> {
+                if (newVal && !initialFocusHandled) {
+                    initialFocusHandled = true;
+                    Platform.runLater(() -> {
+                        if (registerButton != null) {
+                            registerButton.requestFocus();
+                        }
+                    });
+                }
+            });
+        }
+    }
 
     @FXML
     private void onRegisterMember(ActionEvent event) {

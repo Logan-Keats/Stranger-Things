@@ -18,7 +18,7 @@
         <TextField fx:id="usernameField" promptText="Set up username"/>
         <PasswordField fx:id="passwordField" promptText="Set up password"/>
         <PasswordField fx:id="confirmPasswordField" promptText="Confirm password"/>
-        <Button text="Register as member" onAction="#onRegisterMember" maxWidth="Infinity"/>
+        <Button fx:id="registerButton" text="Register as member" onAction="#onRegisterMember" maxWidth="Infinity"/>
         <Button text="Register as admin" onAction="#onRegisterAdmin" maxWidth="Infinity"/>
         <Button text="Back to login" onAction="#onBackToLogin" maxWidth="Infinity"/>
         <Label fx:id="errorLabel" text=""/>
