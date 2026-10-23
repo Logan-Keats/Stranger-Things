@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.image.ImageView?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.strangerthings.controller.EditResourceController"
@@ -80,12 +81,11 @@
 
             <Label text="Resource Image"/>
 
-            <Label text="[Image Preview]"
-                   prefWidth="150"
-                   prefHeight="150"
-                   alignment="CENTER"
-                   style="-fx-background-color: #2b2b2b;
-                          -fx-text-fill: white;"/>
+            <ImageView fx:id="imagePreview"
+                       fitWidth="150"
+                       fitHeight="150"
+                       preserveRatio="true"
+                       style="-fx-background-color: #2b2b2b;"/>
 
             <Button text="Upload Image"
                     prefWidth="200"

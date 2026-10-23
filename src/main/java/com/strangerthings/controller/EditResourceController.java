@@ -11,6 +11,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
+import javafx.stage.FileChooser;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import java.io.File;
+
 public class EditResourceController {
 
     @FXML
@@ -27,6 +32,11 @@ public class EditResourceController {
 
     @FXML
     private Label errorLabel;
+
+    @FXML
+    private ImageView imagePreview;
+
+    private String selectedImagePath;
 
     private Runnable cancelNavigation;
     private Runnable saveNavigation;
@@ -64,8 +74,22 @@ public class EditResourceController {
     }
 
     @FXML
-    private void onUploadImage() {
-        System.out.println("Upload Image clicked");
+    private void onUploadImage()
+    {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Set Resource Image");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg"));
+        File selectedFile = fileChooser.showSaveDialog(resourceNameField.getScene().getWindow());
+
+        if (selectedFile != null)
+        {
+            selectedImagePath = selectedFile.getAbsolutePath();
+            Image image = new Image(selectedFile.toURI().toString());
+            if (imagePreview != null)
+            {
+                imagePreview.setImage(image);
+            }
+        }
     }
 
     @FXML
