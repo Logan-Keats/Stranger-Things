@@ -12,6 +12,8 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.strangerthings.controller.EditResourceController"
+      stylesheets="@theme.css"
+      styleClass="approve-root"
       prefHeight="600.0"
       prefWidth="700.0"
       spacing="5">
@@ -25,8 +27,7 @@
 
     <!-- Page title -->
     <Label text="Edit Resource"
-           style="-fx-font-size: 20px;
-                  -fx-font-weight: bold;"/>
+           styleClass="page-title"/>
 
     <!-- Form and image -->
     <HBox spacing="40">
@@ -105,10 +106,12 @@
     <HBox spacing="50">
 
         <Button text="Cancel"
-                onAction="#onCancel"/>
+                onAction="#onCancel"
+                styleClass="btn-secondary"/>
 
         <Button text="Save Changes"
-                onAction="#onSaveChanges"/>
+                onAction="#onSaveChanges"
+                styleClass="btn-primary"/>
 
     </HBox>
 

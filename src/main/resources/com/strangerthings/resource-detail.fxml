@@ -9,6 +9,8 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.strangerthings.controller.ResourceDetailController"
+      stylesheets="@theme.css"
+      styleClass="approve-root"
       prefHeight="600.0"
       prefWidth="700.0"
       spacing="5">
@@ -18,8 +20,7 @@
     </padding>
 
     <Label text="Resource Details"
-           style="-fx-font-size: 20px;
-                  -fx-font-weight: bold;"/>
+           styleClass="page-title"/>
 
     <HBox spacing="40">
 
@@ -89,17 +90,20 @@
     <HBox spacing="10">
 
         <Button text="Back"
-                onAction="#onBack"/>
+                onAction="#onBack"
+                styleClass="btn-secondary"/>
 
         <Button text="Edit Resource"
-                onAction="#onEditResource"/>
+                onAction="#onEditResource"
+                styleClass="btn-secondary"/>
 
         <Button text="Request Booking"
                 onAction="#onRequestBooking"
-                style="-fx-background-color: #2b5797; -fx-text-fill: white;"/>
+                styleClass="btn-primary"/>
 
         <Button text="Remove Resource"
-                onAction="#onRemoveResource"/>
+                onAction="#onRemoveResource"
+                styleClass="btn-danger"/>
 
     </HBox>
 

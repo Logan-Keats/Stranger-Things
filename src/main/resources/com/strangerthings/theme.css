@@ -1,0 +1,202 @@
+.root, .approve-root, .scroll-pane, .scroll-pane .viewport, .stack-pane, .split-pane {
+    -fx-background-color: #f3eee5;
+}
+
+.page-title {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1b431e;
+}
+
+.page-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #776f69;
+}
+
+.section-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #302b28;
+}
+
+.message-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #776f69;
+}
+
+.status-tabs {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-tab-min-height: 34;
+}
+
+.status-tabs .tab-header-background {
+    -fx-background-color: transparent;
+}
+
+.status-tabs .tab-content-area {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.status-tabs .tab {
+    -fx-background-color: #ebe4d7;
+    -fx-background-radius: 8 8 0 0;
+    -fx-border-color: #d5c8b6;
+    -fx-border-radius: 8 8 0 0;
+    -fx-padding: 6 14 6 14;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.status-tabs .tab:hover {
+    -fx-background-color: #e2d9c8;
+}
+
+.status-tabs .tab:selected {
+    -fx-background-color: #6f8065;
+    -fx-border-color: #6f8065;
+}
+
+.status-tabs .tab .tab-label {
+    -fx-text-fill: #625a54;
+}
+
+.status-tabs .tab:selected .tab-label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.booking-table, .table-view {
+    -fx-background-color: #fcfaf6;
+    -fx-border-color: #d9cdb9;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+}
+
+.booking-table .column-header-background,
+.table-view .column-header-background {
+    -fx-background-color: #ebe4d7;
+    -fx-background-radius: 12 12 0 0;
+}
+
+.booking-table .column-header,
+.booking-table .filler,
+.table-view .column-header,
+.table-view .filler {
+    -fx-background-color: transparent;
+    -fx-size: 38;
+    -fx-border-color: transparent transparent #d9cdb9 transparent;
+}
+
+.booking-table .column-header .label,
+.table-view .column-header .label {
+    -fx-text-fill: #625a54;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+
+.booking-table .table-row-cell,
+.table-view .table-row-cell {
+    -fx-background-color: #fcfaf6;
+    -fx-table-cell-border-color: #eee7dc;
+}
+
+.booking-table .table-row-cell:odd,
+.table-view .table-row-cell:odd {
+    -fx-background-color: #f8f4ec;
+}
+
+.booking-table .table-row-cell:hover,
+.table-view .table-row-cell:hover {
+    -fx-background-color: #efe8da;
+}
+
+.booking-table .table-row-cell:selected,
+.table-view .table-row-cell:selected {
+    -fx-background-color: #6f8065;
+}
+
+.booking-table .table-cell,
+.table-view .table-cell {
+    -fx-text-fill: #302b28;
+    -fx-padding: 8 10 8 10;
+}
+
+.booking-table .table-row-cell:selected .table-cell,
+.table-view .table-row-cell:selected .table-cell {
+    -fx-text-fill: white;
+}
+
+.button {
+    -fx-background-color: #ebe4d7;
+    -fx-text-fill: #625a54;
+    -fx-border-color: #d5c8b6;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-padding: 6 12;
+}
+
+.button:hover {
+    -fx-background-color: #e2d9c8;
+}
+
+.btn-approve, .btn-primary {
+    -fx-background-color: #6f8065 !important;
+    -fx-text-fill: white !important;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.btn-approve:hover, .btn-primary:hover {
+    -fx-background-color: #5f6f56 !important;
+}
+
+.btn-reject, .btn-danger {
+    -fx-background-color: #fcfaf6 !important;
+    -fx-text-fill: #8b5148 !important;
+    -fx-border-color: #d9bdb5 !important;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.btn-reject:hover, .btn-danger:hover {
+    -fx-background-color: #f6ebe8 !important;
+}
+
+.btn-details, .btn-secondary {
+    -fx-background-color: #ebe4d7;
+    -fx-text-fill: #625a54;
+    -fx-border-color: #d5c8b6;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.btn-details:hover, .btn-secondary:hover {
+    -fx-background-color: #e2d9c8;
+}
+
+.text-field, .text-area, .combo-box {
+    -fx-background-color: #fcfaf6;
+    -fx-border-color: #d5c8b6;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-text-fill: #302b28;
+}
+
+.text-field:focused, .text-area:focused, .combo-box:focused {
+    -fx-border-color: #6f8065;
+}
+
+.card {
+    -fx-background-color: #fcfaf6;
+    -fx-border-color: #d9cdb9;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-padding: 20;
+}
