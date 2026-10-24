@@ -91,14 +91,16 @@
         <Button text="Back"
                 onAction="#onBack"/>
 
-        <Button text="Edit Resource"
+        <Button fx:id="editResourceButton"
+                text="Edit Resource"
                 onAction="#onEditResource"/>
 
         <Button text="Request Booking"
                 onAction="#onRequestBooking"
                 style="-fx-background-color: #2b5797; -fx-text-fill: white;"/>
 
-        <Button text="Remove Resource"
+        <Button fx:id="removeResourceButton"
+                text="Remove Resource"
                 onAction="#onRemoveResource"/>
 
     </HBox>
