@@ -11,6 +11,8 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.strangerthings.controller.BookingDetailController"
+      stylesheets="@theme.css"
+      styleClass="approve-root"
       spacing="15">
 
     <padding>
@@ -18,7 +20,8 @@
     </padding>
 
     <Label text="Booking Details"
-           style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+           styleClass="page-title"
+    />
 
     <GridPane hgap="15" vgap="10">
 
@@ -58,21 +61,24 @@
 
     <Button fx:id="markOnLoanButton"
             text="Mark On Loan"
-            onAction="#onMarkOnLoan"/>
+            onAction="#onMarkOnLoan"
+            styleClass="btn-primary"/>
 
     <Button fx:id="markReturnedButton"
             text="Mark Returned"
-            onAction="#onMarkReturned"/>
+            onAction="#onMarkReturned"
+            styleClass="btn-secondary"/>
 
     <Label fx:id="messageLabel"
            wrapText="true"
-           style="-fx-font-size: 14px;"/>
+           styleClass="message-label"/>
 
     <Label text="Resource Usage History"
-           style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+           styleClass="section-title"/>
 
     <TableView fx:id="historyTable"
-               prefHeight="220">
+               prefHeight="220"
+               styleClass="booking-table">
 
         <columns>
 

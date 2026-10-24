@@ -12,6 +12,8 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.strangerthings.controller.AddResourceController"
+      stylesheets="@theme.css"
+      styleClass="approve-root"
       prefHeight="600.0"
       prefWidth="700.0"
       spacing="5">
@@ -25,8 +27,7 @@
 
     <!-- Page title -->
     <Label text="Register Resource"
-           style="-fx-font-size: 20px;
-                  -fx-font-weight: bold;"/>
+           styleClass="page-title"/>
 
     <!-- Form and image -->
     <HBox spacing="40">
@@ -91,7 +92,8 @@
 
             <Button text="Upload Image"
                     prefWidth="200"
-                    onAction="#onUploadImage"/>
+                    onAction="#onUploadImage"
+                    styleClass="btn-secondary"/>
 
         </VBox>
 

@@ -10,6 +10,8 @@
 <VBox xmlns="http://javafx.com/javafx/17"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.strangerthings.controller.BookingViewController"
+      stylesheets="@theme.css"
+      styleClass="approve-root"
       spacing="15.0"
       prefHeight="500.0" prefWidth="700.0">
 
@@ -19,8 +21,8 @@
 
     <children>
         <HBox alignment="CENTER_LEFT" spacing="20.0">
-            <Label text="My Bookings" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
-            <Button text="Refresh" onAction="#onRefresh"/>
+            <Label text="My Bookings" styleClass="page-title"/>
+            <Button text="Refresh" onAction="#onRefresh" styleClass="btn-secondary"/>
         </HBox>
         <TableView fx:id="bookingTable" VBox.vgrow="ALWAYS">
             <columns>
@@ -32,8 +34,7 @@
             </columns>
         </TableView>
         <HBox spacing="10.0" alignment="CENTER_RIGHT">
-                <Button text="View Details" onAction="#onViewDetails"/>
-                <Button text="Cancel Selected Request" onAction="#onCancelSelected" style="-fx-background-color: #d9534f; -fx-text-fill: white;"/>
+                <Button text="View Details" onAction="#onViewDetails" styleClass="btn-danger"/>
         </HBox>
     </children>
 </VBox>
