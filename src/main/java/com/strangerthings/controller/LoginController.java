@@ -5,12 +5,14 @@ import java.io.IOException;
 import com.strangerthings.service.AuthService;
 import com.strangerthings.model.User;
 import com.strangerthings.service.UserSession;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -25,6 +27,9 @@ public class LoginController {
     /** Shared login rules (stub accounts for now; later may use a database). */
     private final AuthService authService = new AuthService();
 
+    @FXML
+    private Button loginButton;
+
     /** Bound to the username TextField in login.fxml. */
     @FXML
     private TextField usernameField;
@@ -36,6 +41,26 @@ public class LoginController {
     /** Shows US-1.3 error text when login fails; cleared on success. */
     @FXML
     private Label errorLabel;
+
+    private boolean initialFocusHandled = false;
+
+    /** Prevents Autofocus on Username Field */
+    @FXML
+    public void initialize() {
+        // Intercept the automatic startup focus exactly once
+        if (usernameField != null) {
+            usernameField.focusedProperty().addListener((obs, oldVal, newVal) -> {
+                if (newVal && !initialFocusHandled) {
+                    initialFocusHandled = true;
+                    Platform.runLater(() -> {
+                        if (loginButton != null) {
+                            loginButton.requestFocus();
+                        }
+                    });
+                }
+            });
+        }
+    }
 
     /**
      * Login button handler ({@code onAction="#onLogin"}).

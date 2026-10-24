@@ -20,9 +20,9 @@
 
     <children>
         <Label text="Stranger Things — Login"/>
-        <TextField fx:id="usernameField" promptText="Username"/>
-        <PasswordField fx:id="passwordField" promptText="Password"/>
-        <Button text="Login" onAction="#onLogin" maxWidth="Infinity"/>
+        <TextField fx:id="usernameField" promptText="Username" onAction="#onLogin" />
+        <PasswordField fx:id="passwordField" promptText="Password" onAction="#onLogin" />
+        <Button fx:id="loginButton" text="Login" onAction="#onLogin" maxWidth="Infinity"/>
         <Button text="Register" onAction="#onRegister" maxWidth="Infinity"/>
         <Label fx:id="errorLabel" text=""/>
     </children>
