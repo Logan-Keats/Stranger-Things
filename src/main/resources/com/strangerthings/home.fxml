@@ -12,6 +12,8 @@
 
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.strangerthings.controller.HomeController"
+      stylesheets="@theme.css"
+      styleClass="approve-root"
       spacing="16.0" style="-fx-background-color: #f7f3ea;">
             <padding><Insets top="22.0" right="24.0" bottom="24.0" left="24.0"/></padding>
             <children>

@@ -5,85 +5,100 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="root"
-            xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.strangerthings.controller.ApproveController"
-            prefWidth="900.0"
-            prefHeight="600.0"
-            styleClass="approve-root">
+<BorderPane xmlns= "http://javafx.com/javafx"
+            xmlns:fx= "http://javafx.com/fxml"
+            fx:controller= "com.strangerthings.controller.ApproveController"
+            stylesheets="@theme.css"
+            styleClass="approve-root"
+            prefWidth= "900.0"
+            prefHeight= "600.0">
 
     <top>
-        <VBox spacing="5.0">
+        <VBox spacing= "8">
             <padding>
-                <Insets top="28.0" right="30.0" bottom="24.0" left="30.0"/>
+                <Insets top="30" right="30" bottom="20" left="30"/>
             </padding>
-
             <Label text="Booking Management" styleClass="page-title"/>
-            <Label text="Review, approve, or reject member booking requests."
-                   styleClass="page-subtitle"/>
+            <Label text="Review, approve, or reject member booking requests." styleClass="page-subtitle"/>
         </VBox>
     </top>
 
     <center>
-        <VBox spacing="0.0">
+        <VBox spacing="15">
             <padding>
-                <Insets top="4.0" right="30.0" bottom="30.0" left="30.0"/>
+                <Insets top="10" right="30" bottom="20" left="30"/>
             </padding>
 
-            <Label text="All Bookings" styleClass="section-title"/>
+            <Label
+                    text="All Bookings"
+                    styleClass="section-title"
+            />
 
-            <!-- Booking status tabs -->
-            <TabPane fx:id="statusTabs"
-                     tabClosingPolicy="UNAVAILABLE"
-                     minHeight="44.0"
-                     prefHeight="44.0"
-                     maxHeight="44.0"
-                     styleClass="status-tabs">
-                <tabs>
-                    <Tab fx:id="pendingTab"   text="Pending"   closable="false"/>
-                    <Tab fx:id="approvedTab"  text="Approved"  closable="false"/>
-                    <Tab fx:id="rejectedTab"  text="Rejected"  closable="false"/>
-                    <Tab fx:id="cancelledTab" text="Cancelled" closable="false"/>
-                    <Tab fx:id="onLoanTab"    text="On Loan"   closable="false"/>
-                    <Tab fx:id="returnedTab"  text="Returned"  closable="false"/>
-                </tabs>
-            </TabPane>
-
-            <!-- Booking table -->
             <TableView fx:id="bookingTable"
                        prefHeight="350.0"
-                       VBox.vgrow="ALWAYS"
-                       styleClass="booking-table">
+                       styleClass="booking-table"
+                       VBox.vgrow="ALWAYS">
+
                 <columns>
-                    <TableColumn fx:id="idColumn"        text="ID"         prefWidth="60.0"/>
-                    <TableColumn fx:id="resourceColumn"  text="RESOURCE"   prefWidth="160.0"/>
-                    <TableColumn fx:id="borrowerColumn"  text="BORROWER"   prefWidth="150.0"/>
-                    <TableColumn fx:id="startDateColumn" text="START DATE" prefWidth="120.0"/>
-                    <TableColumn fx:id="endDateColumn"   text="END DATE"   prefWidth="120.0"/>
+
+                    <TableColumn fx:id="idColumn"
+                                 text="ID"
+                                 prefWidth="60"/>
+
+                    <TableColumn fx:id="resourceColumn"
+                                 text="Resource"
+                                 prefWidth="160"/>
+
+                    <TableColumn fx:id="borrowerColumn"
+                                 text="Borrower"
+                                 prefWidth="150"/>
+
+                    <TableColumn fx:id="startDateColumn"
+                                 text="Start Date"
+                                 prefWidth="120"/>
+
+                    <TableColumn fx:id="endDateColumn"
+                                 text="End Date"
+                                 prefWidth="120"/>
+
+                    <TableColumn fx:id="statusColumn"
+                                 text="Status"
+                                 prefWidth="120"/>
+
                 </columns>
             </TableView>
 
-            <!-- Action buttons -->
-            <HBox spacing="12.0" alignment="CENTER_LEFT">
-                <Button text="Approve Booking" prefWidth="150.0" prefHeight="38.0"
-                        onAction="#onApprove" styleClass="btn-approve"/>
-                <Button text="Reject Booking" prefWidth="150.0" prefHeight="38.0"
-                        onAction="#onReject" styleClass="btn-reject"/>
-                <Button text="View Details" prefWidth="150.0" prefHeight="38.0"
-                        onAction="#onViewDetails" styleClass="btn-details"/>
+            <HBox spacing="12">
+
+                <Button text="Approve Booking"
+                        prefWidth="150"
+                        prefHeight="35"
+                        onAction="#onApprove"
+                        styleClass="btn-primary/>
+
+                <Button text="Reject Booking"
+                        prefWidth="150"
+                        prefHeight="35"
+                        onAction="#onReject"
+                        styleClass="btn-danger"/>
+
+                <Button text="View Details"
+                        prefWidth="150"
+                        prefHeight="35"
+                        onAction="#onViewDetails"
+                        styleClass="btn-secondary"/>
+
             </HBox>
 
             <Label fx:id="messageLabel"
                    text="Select a booking from the table."
                    wrapText="true"
                    styleClass="message-label"/>
+
         </VBox>
     </center>
 

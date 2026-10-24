@@ -48,6 +48,24 @@ public class BookingAddController
             return;
         }
 
+        if (startDate == null || endDate == null)
+        {
+            errorLabel.setText("Please select both a start and end date.");
+            return;
+        }
+
+        if (startDate.isBefore(LocalDate.now()))
+        {
+            errorLabel.setText("Start date cannot be in the past.");
+            return;
+        }
+
+        if (endDate.isBefore(startDate))
+        {
+            errorLabel.setText("End data cannot be before start date");
+            return;
+        }
+
         boolean success = bookingService.requestBooking(resource.getId(), resource.getName(), activeUser, startDate, endDate);
 
         if (success)

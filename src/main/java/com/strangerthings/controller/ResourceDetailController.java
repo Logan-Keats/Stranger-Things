@@ -5,10 +5,18 @@ import com.strangerthings.model.Resource;
 import com.strangerthings.dao.ResourceDao;
 import com.strangerthings.dao.SqliteResourceDao;
 
+import com.strangerthings.service.UserSession;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 public class ResourceDetailController {
+
+    @FXML
+    private Button editResourceButton;
+
+    @FXML
+    private Button removeResourceButton;
 
     @FXML
     private Label resourceNameLabel;
@@ -53,59 +61,61 @@ public class ResourceDetailController {
         availabilityLabel.setText(
                 available ? "AVAILABLE" : "UNAVAILABLE - ON LOAN"
         );
-    }
 
+        /** Checks if current user is the resource owner */
+        String currentUser = UserSession.username();
+        boolean isOwner = currentUser != null && currentUser.equals(resource.getOwnerUsername());
+        boolean canModify = isOwner || UserSession.isAdmin();
+
+        if (editResourceButton != null){
+            editResourceButton.setVisible(canModify);
+            editResourceButton.setManaged(canModify);
+
+        }        if (removeResourceButton != null)
+        {            removeResourceButton.setVisible(canModify);
+            removeResourceButton.setManaged(canModify);
+        }    }
     public Resource getResource() {
         return resource;
     }
-
     public void setBackNavigation(Runnable backNavigation) {
         this.backNavigation = backNavigation;
     }
-
     public void setEditResourceNavigation(Runnable editResourceNavigation) {
         this.editResourceNavigation = editResourceNavigation;
     }
-
     public void setBookingNavigation(Runnable bookingNavigation) {
         this.bookingNavigation = bookingNavigation;
     }
-
     public void setDeleteNavigation(Runnable deleteNavigation) {
         this.deleteNavigation = deleteNavigation;
     }
-
     @FXML
     private void onBack() {
         if (backNavigation != null) {
             backNavigation.run();
-        }
-    }
-
+        }    }
     @FXML
     private void onEditResource() {
-        if (editResourceNavigation != null) {
-            editResourceNavigation.run();
-        }
-    }
-
+        String currentUser = UserSession.username();
+        if (resource == null || currentUser == null || !currentUser.equals(resource.getOwnerUsername()))
+        {            return;
+        }        if (editResourceNavigation != null)
+        {            editResourceNavigation.run();
+        }    }
     @FXML
     private void onRequestBooking() {
         if (bookingNavigation != null) {
             bookingNavigation.run();
-        }
-    }
-
+        }    }
     @FXML
-    private void onRemoveResource() {
-        if (resource == null) {
-            return;
+    private void onRemoveResource()
+    {        String currentUser = UserSession.username();
+        if (resource == null || currentUser == null || !currentUser.equals(resource.getOwnerUsername()))
+        {            return;
         }
-
         boolean deleted = resourceDao.delete(resource.getId());
 
         if (deleted && deleteNavigation != null) {
             deleteNavigation.run();
-        }
-    }
-}
+        }    }}

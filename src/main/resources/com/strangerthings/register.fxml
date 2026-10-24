@@ -10,6 +10,8 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.strangerthings.controller.RegisterController"
+      stylesheets="@theme.css"
+      styleClass="approve-root"
       prefHeight="400.0" prefWidth="600.0"
       alignment="CENTER" spacing="12.0">
     <padding><Insets top="40.0" right="80.0" bottom="40.0" left="80.0"/></padding>
@@ -18,7 +20,7 @@
         <TextField fx:id="usernameField" promptText="Set up username"/>
         <PasswordField fx:id="passwordField" promptText="Set up password"/>
         <PasswordField fx:id="confirmPasswordField" promptText="Confirm password"/>
-        <Button text="Register as member" onAction="#onRegisterMember" maxWidth="Infinity"/>
+        <Button fx:id="registerButton" text="Register as member" onAction="#onRegisterMember" maxWidth="Infinity"/>
         <Button text="Register as admin" onAction="#onRegisterAdmin" maxWidth="Infinity"/>
         <Button text="Back to login" onAction="#onBackToLogin" maxWidth="Infinity"/>
         <Label fx:id="errorLabel" text=""/>

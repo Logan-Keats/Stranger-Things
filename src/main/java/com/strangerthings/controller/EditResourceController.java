@@ -53,7 +53,6 @@ public class EditResourceController {
                 "Meet Up"
         );
     }
-
     public void setResource(Resource resource) {
         this.resource = resource;
 
@@ -62,39 +61,36 @@ public class EditResourceController {
         categoryBox.setValue(resource.getCategory());
         collectionMethodBox.setValue(resource.getCollectionMethod());
     }
-
     @FXML
     private void onUploadImage() {
         System.out.println("Upload Image clicked");
     }
-
     @FXML
     private void onCancel() {
         if (cancelNavigation != null) {
             cancelNavigation.run();
-        }
-    }
-
+        }    }
     @FXML
     private void onSaveChanges() {
-
+        String currentUser = com.strangerthings.service.UserSession.username();
+        if (resource == null || !currentUser.equals(resource.getOwnerUsername())) {
+            errorLabel.setText("You are not authorized to edit this resource.");
+            return;
+        }
         boolean valid = resourceService.isValidResource(
                 resourceNameField.getText(),
                 descriptionField.getText(),
                 categoryBox.getValue(),
                 collectionMethodBox.getValue()
         );
-
         if (!valid) {
             errorLabel.setText("Please complete all resource details.");
             return;
         }
-
         if (resource == null) {
             errorLabel.setText("Unable to find resource.");
             return;
         }
-
         Resource updatedResource = new Resource(
                 resource.getId(),
                 resourceNameField.getText().trim(),
@@ -106,7 +102,6 @@ public class EditResourceController {
                 resource.getEstimatedSavings(),
                 resource.getCo2AvoidedKg()
         );
-
         boolean updated = resourceDao.update(updatedResource);
 
         if (updated) {
@@ -115,17 +110,12 @@ public class EditResourceController {
 
             if (saveNavigation != null) {
                 saveNavigation.run();
-            }
-        } else {
+            }        } else {
             errorLabel.setText("Unable to update resource.");
-        }
-    }
-
+        }    }
     public void setCancelNavigation(Runnable cancelNavigation) {
         this.cancelNavigation = cancelNavigation;
     }
-
     public void setSaveNavigation(Runnable saveNavigation) {
         this.saveNavigation = saveNavigation;
-    }
-}
+    }}

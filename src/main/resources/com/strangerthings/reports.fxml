@@ -16,6 +16,8 @@
 
 <ScrollPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.strangerthings.controller.ReportsController" fitToWidth="true"
+            stylesheets="@theme.css"
+            styleClass="approve-root"
             style="-fx-background-color: #f3eee5;">
     <content>
         <VBox spacing="28.0" style="-fx-background-color: #f3eee5;">

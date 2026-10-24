@@ -11,6 +11,8 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.strangerthings.controller.ResourceController"
+      stylesheets="@theme.css"
+      styleClass="approve-root"
       prefHeight="400.0"
       prefWidth="600.0"
       spacing="10">
@@ -23,8 +25,7 @@
     </padding>
 
     <Label text="Resource Catalogue"
-           style="-fx-font-size: 20px;
-                  -fx-font-weight: bold;"/>
+           styleClass="page-title"/>
 
     <HBox spacing="5">
 
@@ -32,13 +33,16 @@
                    promptText="Search for resource..."/>
 
         <Button text="Filters"
-                onAction="#onAddFilters"/>
+                onAction="#onAddFilters"
+                styleClass="btn-secondary"/>
 
         <Button text="Search"
-                onAction="#onSearch"/>
+                onAction="#onSearch"
+                styleClass="btn-secondary"/>
 
         <Button text="+ Add Resource"
-                onAction="#onAddResource"/>
+                onAction="#onAddResource"
+                styleClass="btn-primary"/>
 
     </HBox>
 

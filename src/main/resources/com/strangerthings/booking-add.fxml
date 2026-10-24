@@ -10,6 +10,8 @@
 <VBox xmlns="http://javafx.com/javafx/17"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.strangerthings.controller.BookingAddController"
+      stylesheets="@theme.css"
+      styleClass="approve-root"
       spacing="15.0" prefWidth="400.0">
 
     <padding>
@@ -17,7 +19,7 @@
     </padding>
 
     <children>
-        <Label text="Create Booking Request" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+        <Label text="Create Booking Request" styleClass="section-title"/>
         <VBox spacing="5.0">
             <Label text="Resource Name"/>
             <TextField fx:id="resourceNameField" promptText="Enter item name"/>
@@ -36,8 +38,8 @@
         <Label fx:id="errorLabel" style="-fx-text-fill: red;" wrapText="true"/>
 
         <HBox spacing="10.0" alignment="CENTER_RIGHT">
-            <Button text="Cancel" onAction="#onCancel"/>
-            <Button text="Submit Request" onAction="#onSubmit" style="-fx-background-color: #2b5797; -fx-text-fill: white;"/>
+            <Button text="Cancel" onAction="#onCancel" styleClass="btn-secondary"/>
+            <Button text="Submit Request" onAction="#onSubmit" styleClass="btn-secondary"/>
         </HBox>
     </children>
 </VBox>
